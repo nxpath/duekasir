@@ -1,6 +1,6 @@
+import 'package:due_kasir/brick/model/auth_model.dart';
 import 'package:due_kasir/controller/auth_controller.dart';
 import 'package:due_kasir/controller/user_controller.dart';
-import 'package:due_kasir/model/auth_model.dart';
 import 'package:due_kasir/service/database.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -36,15 +36,14 @@ class UsersSheet extends StatelessWidget {
                           .map((p) => ListTile(
                                 title: Text(p.nama),
                                 subtitle: Text(p.keterangan ?? ''),
-                                trailing: Icon(
-                                    auth.value?.user.value?.id == p.id
-                                        ? Icons.check_box
-                                        : Icons.check_box_outline_blank),
+                                trailing: Icon(auth.value?.user?.id == p.id
+                                    ? Icons.check_box
+                                    : Icons.check_box_outline_blank),
                                 onTap: () async {
                                   if (auth.hasValue) {
                                     final user = AuthModel()
-                                      ..id = auth.value!.id
-                                      ..user.value = p;
+                                      ..id = auth.value!.user!.id
+                                      ..user = p;
                                     await Database()
                                         .changeUser(user)
                                         .whenComplete(
@@ -53,7 +52,7 @@ class UsersSheet extends StatelessWidget {
                                         );
                                   } else {
                                     final user = AuthModel()
-                                      ..user.value = p
+                                      ..user = p
                                       ..createdAt = DateTime.now();
                                     await Database().loginUser(user);
                                   }

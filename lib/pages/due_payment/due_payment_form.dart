@@ -1,7 +1,7 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:due_kasir/controller/due_payment_controller.dart';
 import 'package:due_kasir/main.dart';
-import 'package:due_kasir/model/due_payment_model.dart';
+import 'package:due_kasir/brick/model/due_payment.model.dart';
 import 'package:due_kasir/service/database.dart';
 import 'package:due_kasir/utils/date_utils.dart';
 import 'package:flutter/material.dart';
@@ -101,7 +101,7 @@ class DuePaymentForm extends HookWidget {
                               200,
                               (val) =>
                                   ShadOption(value: val, child: Text('$val'))),
-                          onChanged: (val) => stock.value = val,
+                          onChanged: (val) => stock.value = val ?? 0,
                           selectedOptionBuilder: (context, value) {
                             stock.value = value;
                             return Text('$value');
@@ -210,9 +210,7 @@ class DuePaymentForm extends HookWidget {
                         ShadButton.destructive(
                           child: const Text('Delete'),
                           onPressed: () {
-                            Database()
-                                .deleteInventory(item.id!)
-                                .whenComplete(() {
+                            Database().deleteDuePayment(item).whenComplete(() {
                               duePaymentController.payments.refresh();
                               if (context.mounted) Navigator.pop(context);
                               if (context.mounted) {

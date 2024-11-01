@@ -2,7 +2,6 @@ import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:due_kasir/controller/expenses_controller.dart';
 import 'package:due_kasir/pages/drawer.dart';
 import 'package:due_kasir/pages/expenses/expenses_form.dart';
-import 'package:due_kasir/service/database.dart';
 import 'package:due_kasir/utils/constant.dart';
 import 'package:due_kasir/utils/date_utils.dart';
 import 'package:due_kasir/utils/extension.dart';
@@ -36,27 +35,27 @@ class Expanses extends StatelessWidget {
             ),
             child: const Text('Refresh'),
           ),
-          PopupMenuButton<String>(
-            onSelected: (item) async {
-              if (item == 'sync') {
-                await Database().expensesSync();
-                await expensesController.expenses.refresh();
-              }
-            },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-              const PopupMenuItem<String>(
-                value: 'sync',
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.restore),
-                    SizedBox(width: 8),
-                    Text('Sync'),
-                  ],
-                ),
-              ),
-            ],
-          ),
+          // PopupMenuButton<String>(
+          //   onSelected: (item) async {
+          //     if (item == 'sync') {
+          //       await Database().expensesSync();
+          //       await expensesController.expenses.refresh();
+          //     }
+          //   },
+          //   itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+          //     const PopupMenuItem<String>(
+          //       value: 'sync',
+          //       child: Row(
+          //         mainAxisSize: MainAxisSize.min,
+          //         children: [
+          //           Icon(Icons.restore),
+          //           SizedBox(width: 8),
+          //           Text('Sync'),
+          //         ],
+          //       ),
+          //     ),
+          //   ],
+          // ),
         ],
       ),
       body: SingleChildScrollView(

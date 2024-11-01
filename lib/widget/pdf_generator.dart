@@ -1,7 +1,8 @@
 import 'dart:io';
-import 'package:due_kasir/model/salary_model.dart';
-import 'package:due_kasir/model/store_model.dart';
-import 'package:due_kasir/model/user_model.dart';
+import 'package:due_kasir/brick/model/item_salary.model.dart';
+import 'package:due_kasir/brick/model/salary.model.dart';
+import 'package:due_kasir/brick/model/store.model.dart';
+import 'package:due_kasir/brick/model/user.model.dart';
 import 'package:due_kasir/utils/constant.dart';
 import 'package:due_kasir/utils/date_utils.dart';
 import 'package:file_saver/file_saver.dart';

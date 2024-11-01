@@ -1,5 +1,5 @@
 import 'package:due_kasir/controller/expenses_controller.dart';
-import 'package:due_kasir/model/expenses_model.dart';
+import 'package:due_kasir/brick/model/expenses.model.dart';
 import 'package:due_kasir/service/database.dart';
 import 'package:due_kasir/utils/date_utils.dart';
 import 'package:flutter/material.dart';

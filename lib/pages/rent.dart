@@ -1,5 +1,5 @@
 import 'package:due_kasir/controller/rent_controller.dart';
-import 'package:due_kasir/model/rent_item_model.dart';
+import 'package:due_kasir/brick/model/rent_item.model.dart';
 import 'package:due_kasir/pages/drawer.dart';
 import 'package:due_kasir/pages/rent/rent_form.dart';
 import 'package:due_kasir/service/database.dart';
@@ -43,29 +43,29 @@ class _RentState extends State<Rent> {
             ),
             child: const Text('Refresh'),
           ),
-          PopupMenuButton<String>(
-            onSelected: (item) async {
-              if (item == 'sync') {
-                await Database().rentSync();
-                await rentController.rents.refresh();
-                await Database().rentItemSync();
-                await rentController.rentItems.refresh();
-              }
-            },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-              const PopupMenuItem<String>(
-                value: 'sync',
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.restore),
-                    SizedBox(width: 8),
-                    Text('Sync'),
-                  ],
-                ),
-              ),
-            ],
-          ),
+          // PopupMenuButton<String>(
+          //   onSelected: (item) async {
+          //     if (item == 'sync') {
+          //       await Database().rentSync();
+          //       await rentController.rents.refresh();
+          //       await Database().rentItemSync();
+          //       await rentController.rentItems.refresh();
+          //     }
+          //   },
+          //   itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+          //     const PopupMenuItem<String>(
+          //       value: 'sync',
+          //       child: Row(
+          //         mainAxisSize: MainAxisSize.min,
+          //         children: [
+          //           Icon(Icons.restore),
+          //           SizedBox(width: 8),
+          //           Text('Sync'),
+          //         ],
+          //       ),
+          //     ),
+          //   ],
+          // ),
         ],
       ),
       body: SingleChildScrollView(

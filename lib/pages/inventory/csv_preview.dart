@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:csv/csv.dart';
 import 'package:due_kasir/controller/inventory_controller.dart';
-import 'package:due_kasir/model/item_model.dart';
+import 'package:due_kasir/brick/model/item.model.dart';
 import 'package:due_kasir/service/database.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -28,18 +28,18 @@ class _CsvPreviewState extends State<CsvPreview> {
         .skip(1)
         .map((val) {
       return ItemModel(
-          nama: val[1],
-          code: val[2].toString(),
-          deskripsi: val[3] == 'null' ? null : val[3],
-          jumlahBarang: val[4],
-          quantity: 1,
-          ukuran: val[6].toString(),
-          hargaDasar: val[7],
-          hargaJual: val[8],
-          hargaJualPersen: double.parse(val[9].toString()),
-          diskonPersen: double.tryParse(val[10].toString()),
-          isHargaJualPersen: val[11] == 'TRUE' ? true : false,
-          isSynced: false);
+        nama: val[1],
+        code: val[2].toString(),
+        deskripsi: val[3] == 'null' ? null : val[3],
+        jumlahBarang: val[4],
+        quantity: 1,
+        ukuran: val[6].toString(),
+        hargaDasar: val[7],
+        hargaJual: val[8],
+        hargaJualPersen: int.parse(val[9].toString()),
+        diskonPersen: int.tryParse(val[10].toString()),
+        isHargaJualPersen: val[11] == 'TRUE' ? true : false,
+      );
     }).toList();
   }
 

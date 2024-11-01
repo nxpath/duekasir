@@ -1,6 +1,6 @@
 import 'package:due_kasir/controller/selling/events.dart';
 import 'package:due_kasir/controller/selling_controller.dart';
-import 'package:due_kasir/model/item_model.dart';
+import 'package:due_kasir/brick/model/item.model.dart';
 import 'package:due_kasir/service/database.dart';
 import 'package:due_kasir/service/get_it.dart';
 import 'package:due_kasir/utils/constant.dart';

@@ -1,5 +1,5 @@
 import 'package:due_kasir/controller/report_controller.dart';
-import 'package:due_kasir/model/penjualan_model.dart';
+import 'package:due_kasir/brick/model/penjualan.model.dart';
 import 'package:due_kasir/utils/constant.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';

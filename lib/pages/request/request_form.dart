@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:appflowy_editor/appflowy_editor.dart';
 import 'package:due_kasir/controller/request_controller.dart';
-import 'package:due_kasir/model/request_model.dart';
+import 'package:due_kasir/brick/model/request.model.dart';
 import 'package:due_kasir/service/supabase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -98,7 +98,7 @@ class _RequestFormState extends State<RequestForm> {
                           note: jsonEncode(editorState?.document.toJson()),
                           status: selectedStatus,
                           createdAt: DateTime.now());
-                      await SupabaseHelper().addRequest(request.toJson());
+                      await SupabaseHelper().addRequest(request);
                     }
                     requestController.requests.refresh();
                     if (context.mounted) Navigator.pop(context);
@@ -117,7 +117,7 @@ class _RequestFormState extends State<RequestForm> {
               onPressed: editorState == null
                   ? null
                   : () async {
-                      await SupabaseHelper().removeRequest(widget.request!.id!);
+                      await SupabaseHelper().removeRequest(widget.request!.id);
                       requestController.requests.refresh();
                       if (context.mounted) Navigator.pop(context);
                     },
@@ -149,7 +149,7 @@ class _RequestFormState extends State<RequestForm> {
                   ],
                   editorScrollController: editorScrollController,
                   editorState: editorState!,
-                  textDirection: TextDirection.ltr,
+                  textDirection: null,
                   child: AppFlowyEditor(
                     editorStyle: EditorStyle.desktop(
                       cursorWidth: 2.0,

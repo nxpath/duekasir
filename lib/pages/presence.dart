@@ -1,6 +1,6 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:due_kasir/controller/presence_controller.dart';
-import 'package:due_kasir/model/user_model.dart';
+import 'package:due_kasir/brick/model/user.model.dart';
 import 'package:due_kasir/pages/drawer.dart';
 import 'package:due_kasir/pages/presence/presence_form.dart';
 import 'package:due_kasir/service/database.dart';
@@ -35,27 +35,27 @@ class Presence extends StatelessWidget {
             ),
             child: const Text('Refresh'),
           ),
-          PopupMenuButton<String>(
-            onSelected: (item) async {
-              if (item == 'sync') {
-                await Database().presenseSync();
-                await presenceController.presence.refresh();
-              }
-            },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-              const PopupMenuItem<String>(
-                value: 'sync',
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.restore),
-                    SizedBox(width: 8),
-                    Text('Sync'),
-                  ],
-                ),
-              ),
-            ],
-          ),
+          // PopupMenuButton<String>(
+          //   onSelected: (item) async {
+          //     if (item == 'sync') {
+          //       await Database().presenseSync();
+          //       await presenceController.presence.refresh();
+          //     }
+          //   },
+          //   itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+          //     const PopupMenuItem<String>(
+          //       value: 'sync',
+          //       child: Row(
+          //         mainAxisSize: MainAxisSize.min,
+          //         children: [
+          //           Icon(Icons.restore),
+          //           SizedBox(width: 8),
+          //           Text('Sync'),
+          //         ],
+          //       ),
+          //     ),
+          //   ],
+          // ),
         ],
       ),
       body: SingleChildScrollView(

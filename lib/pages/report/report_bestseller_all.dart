@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:due_kasir/model/penjualan_model.dart';
+import 'package:due_kasir/brick/model/product_item.model.dart';
 import 'package:due_kasir/utils/constant.dart';
 import 'package:flutter/material.dart';
 

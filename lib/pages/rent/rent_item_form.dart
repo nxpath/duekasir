@@ -1,7 +1,7 @@
 import 'package:due_kasir/controller/inventory_controller.dart';
 import 'package:due_kasir/controller/rent_controller.dart';
 import 'package:due_kasir/main.dart';
-import 'package:due_kasir/model/rent_item_model.dart';
+import 'package:due_kasir/brick/model/rent_item.model.dart';
 import 'package:due_kasir/service/database.dart';
 import 'package:due_kasir/utils/extension.dart';
 import 'package:flutter/material.dart';
@@ -115,7 +115,7 @@ class RentItemForm extends HookWidget {
                               10,
                               (val) =>
                                   ShadOption(value: val, child: Text('$val'))),
-                          onChanged: (val) => stock.value = val,
+                          onChanged: (val) => stock.value = val ?? 0,
                           selectedOptionBuilder: (context, value) {
                             stock.value = value;
                             return Text('$value');
@@ -173,9 +173,7 @@ class RentItemForm extends HookWidget {
                         ShadButton.destructive(
                           child: const Text('Delete'),
                           onPressed: () {
-                            Database()
-                                .deleteRentItem(item.id!)
-                                .whenComplete(() {
+                            Database().deleteRentItem(item).whenComplete(() {
                               rentController.rentItems.refresh();
                               if (context.mounted) Navigator.pop(context);
                               if (context.mounted) {

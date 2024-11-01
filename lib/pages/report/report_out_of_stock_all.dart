@@ -1,4 +1,4 @@
-import 'package:due_kasir/model/item_model.dart';
+import 'package:due_kasir/brick/model/item.model.dart';
 import 'package:due_kasir/utils/constant.dart';
 import 'package:flutter/material.dart';
 

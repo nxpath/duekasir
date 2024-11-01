@@ -1,4 +1,4 @@
-import 'package:due_kasir/model/penjualan_model.dart';
+import 'package:due_kasir/brick/model/penjualan.model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

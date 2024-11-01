@@ -1,5 +1,5 @@
 import 'package:due_kasir/controller/store_controller.dart';
-import 'package:due_kasir/model/store_model.dart';
+import 'package:due_kasir/brick/model/store.model.dart';
 import 'package:due_kasir/pages/drawer.dart';
 import 'package:due_kasir/service/database.dart';
 import 'package:flutter/material.dart';
@@ -31,28 +31,28 @@ class _StoreState extends State<Store> {
       appBar: AppBar(
         title: const Text('Store'),
         centerTitle: false,
-        actions: [
-          PopupMenuButton<String>(
-            onSelected: (item) async {
-              if (item == 'sync') {
-                Database().syncStore();
-              }
-            },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-              const PopupMenuItem<String>(
-                value: 'sync',
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.restore),
-                    SizedBox(width: 8),
-                    Text('Sync'),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
+        // actions: [
+        //   PopupMenuButton<String>(
+        //     onSelected: (item) async {
+        //       if (item == 'sync') {
+        //         Database().syncStore();
+        //       }
+        //     },
+        //     itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+        //       const PopupMenuItem<String>(
+        //         value: 'sync',
+        //         child: Row(
+        //           mainAxisSize: MainAxisSize.min,
+        //           children: [
+        //             Icon(Icons.restore),
+        //             SizedBox(width: 8),
+        //             Text('Sync'),
+        //           ],
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ],
       ),
       body: Form(
         key: _storeFormKey,

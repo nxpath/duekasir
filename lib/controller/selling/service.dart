@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 
-import 'package:due_kasir/model/item_model.dart';
+import 'package:due_kasir/brick/model/item.model.dart';
 
 class CartService {
   final _items = <ItemModel>[];

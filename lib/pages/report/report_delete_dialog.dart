@@ -1,5 +1,4 @@
 import 'package:due_kasir/controller/report_controller.dart';
-import 'package:due_kasir/service/database.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
@@ -31,7 +30,8 @@ class _ReportDeleteDialogState extends State<ReportDeleteDialog> {
               onPressed: () async {
                 if (reportFormKey.currentState!.validate()) {
                   if (_password.text == '111111') {
-                    await Database().removePenjualan(widget.id);
+                    // TODO Fix this
+                    // await Database().removePenjualan(widget);
                     await reportController.report.refresh();
                     await reportController.reportToday.refresh();
                     await reportController.reportYesterday.refresh();

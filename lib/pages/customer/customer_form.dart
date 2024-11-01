@@ -1,5 +1,5 @@
 import 'package:due_kasir/controller/customer_controller.dart';
-import 'package:due_kasir/model/customer_model.dart';
+import 'package:due_kasir/brick/model/customer.model.dart';
 import 'package:due_kasir/service/database.dart';
 import 'package:due_kasir/utils/date_utils.dart';
 import 'package:flutter/material.dart';
@@ -134,7 +134,7 @@ class CustomerForm extends HookWidget {
                             child: const Text('Delete'),
                             onPressed: () {
                               Database()
-                                  .deleteCustomer(customer.id!)
+                                  .deleteCustomer(customer)
                                   .whenComplete(() async {
                                 await customerController.customer.refresh();
                                 if (context.mounted) Navigator.pop(context);

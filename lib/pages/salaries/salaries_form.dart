@@ -1,9 +1,10 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:collection/collection.dart';
+import 'package:due_kasir/brick/model/item_salary.model.dart';
+import 'package:due_kasir/brick/model/salary.model.dart';
+import 'package:due_kasir/brick/model/user.model.dart';
 import 'package:due_kasir/controller/salary_controller.dart';
 import 'package:due_kasir/controller/user_controller.dart';
-import 'package:due_kasir/model/salary_model.dart';
-import 'package:due_kasir/model/user_model.dart';
 import 'package:due_kasir/service/database.dart';
 import 'package:due_kasir/utils/constant.dart';
 import 'package:due_kasir/utils/date_utils.dart';
@@ -58,7 +59,7 @@ class _SalariesFormState extends State<SalariesForm> {
     if (widget.salary?.deductions != null) {
       deductionCount = (widget.salary?.deductions ?? []).length;
       await Future.forEach(widget.salary!.deductions!, (item) async {
-        formDeductions.add(buildDeductionField(item.id!, item: item));
+        formDeductions.add(buildDeductionField(item.id, item: item));
       });
     }
   }
@@ -68,7 +69,7 @@ class _SalariesFormState extends State<SalariesForm> {
     if (widget.salary?.items != null) {
       itemsCount = (widget.salary?.items ?? []).length;
       await Future.forEach(widget.salary!.items, (item) async {
-        formItems.add(buildItemField(item.id!, item: item));
+        formItems.add(buildItemField(item.id, item: item));
       });
     }
   }
@@ -302,7 +303,7 @@ class _SalariesFormState extends State<SalariesForm> {
                         if (salariesFormKey.currentState!.saveAndValidate()) {
                           SalaryModel salary = SalaryModel(
                             id: DateTime.now().microsecondsSinceEpoch,
-                            userId: user!.id!,
+                            userId: user!.id,
                             status:
                                 salariesFormKey.currentState!.value['status'],
                             periode:

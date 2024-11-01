@@ -2,8 +2,8 @@ import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:due_kasir/controller/expenses_controller.dart';
 import 'package:due_kasir/controller/inventory_controller.dart';
 import 'package:due_kasir/controller/report_controller.dart';
-import 'package:due_kasir/model/penjualan_model.dart';
-import 'package:due_kasir/model/user_model.dart';
+import 'package:due_kasir/brick/model/penjualan.model.dart';
+import 'package:due_kasir/brick/model/user.model.dart';
 import 'package:due_kasir/pages/drawer.dart';
 import 'package:due_kasir/pages/report/report_bestseller.dart';
 import 'package:due_kasir/pages/report/report_delete_dialog.dart';
@@ -71,29 +71,29 @@ class _ReportState extends State<Report> {
             ),
             child: Text(isLoading ? 'Loading...' : 'Refresh'),
           ),
-          PopupMenuButton<String>(
-            onSelected: (item) async {
-              if (item == 'sync') {
-                await Database().checkIsReportSynced();
-                reportController.report.refresh();
-                reportController.reportToday.refresh();
-                reportController.reportYesterday.refresh();
-              }
-            },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-              const PopupMenuItem<String>(
-                value: 'sync',
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.restore),
-                    SizedBox(width: 8),
-                    Text('Sync'),
-                  ],
-                ),
-              ),
-            ],
-          ),
+          // PopupMenuButton<String>(
+          //   onSelected: (item) async {
+          //     if (item == 'sync') {
+          //       await Database().checkIsReportSynced();
+          //       reportController.report.refresh();
+          //       reportController.reportToday.refresh();
+          //       reportController.reportYesterday.refresh();
+          //     }
+          //   },
+          //   itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+          //     const PopupMenuItem<String>(
+          //       value: 'sync',
+          //       child: Row(
+          //         mainAxisSize: MainAxisSize.min,
+          //         children: [
+          //           Icon(Icons.restore),
+          //           SizedBox(width: 8),
+          //           Text('Sync'),
+          //         ],
+          //       ),
+          //     ),
+          //   ],
+          // ),
         ],
       ),
       body: SingleChildScrollView(
@@ -409,7 +409,7 @@ class _ReportState extends State<Report> {
                                             context: context,
                                             builder: (context) =>
                                                 ReportSyncDialog(
-                                              id: detail.id!,
+                                              id: detail.id,
                                               detail: detail,
                                             ),
                                           );
@@ -429,7 +429,7 @@ class _ReportState extends State<Report> {
                                               context: context,
                                               builder: (context) =>
                                                   ReportDeleteDialog(
-                                                      id: detail.id!));
+                                                      id: detail.id));
                                         },
                                         icon: const Padding(
                                           padding: EdgeInsets.only(right: 8),

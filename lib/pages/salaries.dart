@@ -1,9 +1,7 @@
-import 'dart:developer';
-
 import 'package:due_kasir/controller/salary_controller.dart';
 import 'package:due_kasir/controller/store_controller.dart';
-import 'package:due_kasir/model/salary_model.dart';
-import 'package:due_kasir/model/user_model.dart';
+import 'package:due_kasir/brick/model/salary.model.dart';
+import 'package:due_kasir/brick/model/user.model.dart';
 import 'package:due_kasir/pages/drawer.dart';
 import 'package:due_kasir/service/database.dart';
 import 'package:due_kasir/utils/constant.dart';
@@ -64,27 +62,27 @@ class _SalariesState extends State<Salaries> {
             ),
             child: const Text('Refresh'),
           ),
-          PopupMenuButton<String>(
-            onSelected: (item) async {
-              if (item == 'sync') {
-                await Database().salariesSync();
-                await salaryController.salaries.refresh();
-              }
-            },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-              const PopupMenuItem<String>(
-                value: 'sync',
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.restore),
-                    SizedBox(width: 8),
-                    Text('Sync'),
-                  ],
-                ),
-              ),
-            ],
-          ),
+          // PopupMenuButton<String>(
+          //   onSelected: (item) async {
+          //     if (item == 'sync') {
+          //       await Database().salariesSync();
+          //       await salaryController.salaries.refresh();
+          //     }
+          //   },
+          //   itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+          //     const PopupMenuItem<String>(
+          //       value: 'sync',
+          //       child: Row(
+          //         mainAxisSize: MainAxisSize.min,
+          //         children: [
+          //           Icon(Icons.restore),
+          //           SizedBox(width: 8),
+          //           Text('Sync'),
+          //         ],
+          //       ),
+          //     ),
+          //   ],
+          // ),
         ],
       ),
       body: password == null
@@ -337,7 +335,6 @@ class _SalariesState extends State<Salaries> {
                                       var user = await Database()
                                           .getUserById(item.userId);
                                       if (user != null) {
-                                        log('hello ${item.items.first.toJson()}');
                                         pdfGenerator(
                                           user: user,
                                           store: store.value!,
@@ -349,7 +346,7 @@ class _SalariesState extends State<Salaries> {
                                   ShadButton.destructive(
                                     icon: const Icon(Icons.delete),
                                     onPressed: () async {
-                                      await Database().deleteSalary(item.id!);
+                                      await Database().deleteSalary(item);
                                       Future.delayed(Durations.medium1).then(
                                           (_) => salaryController.salaries
                                               .refresh());

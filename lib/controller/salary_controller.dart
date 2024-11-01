@@ -1,5 +1,5 @@
-import 'package:due_kasir/model/salary_model.dart';
-import 'package:due_kasir/model/user_model.dart';
+import 'package:due_kasir/brick/model/salary.model.dart';
+import 'package:due_kasir/brick/model/user.model.dart';
 import 'package:due_kasir/service/database.dart';
 import 'package:signals/signals_flutter.dart';
 

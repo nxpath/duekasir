@@ -1,6 +1,6 @@
 import 'package:due_kasir/controller/inventory_controller.dart';
 import 'package:due_kasir/main.dart';
-import 'package:due_kasir/model/item_model.dart';
+import 'package:due_kasir/brick/model/item.model.dart';
 import 'package:due_kasir/service/database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -155,7 +155,7 @@ class InventoryForm extends HookWidget {
                               200,
                               (val) =>
                                   ShadOption(value: val, child: Text('$val'))),
-                          onChanged: (val) => stock.value = val,
+                          onChanged: (val) => stock.value = val ?? 0,
                           selectedOptionBuilder: (context, value) {
                             stock.value = value;
                             return Text('$value');
@@ -236,9 +236,7 @@ class InventoryForm extends HookWidget {
                         ShadButton.destructive(
                           child: const Text('Delete'),
                           onPressed: () {
-                            Database()
-                                .deleteInventory(item.id!)
-                                .whenComplete(() {
+                            Database().deleteInventory(item).whenComplete(() {
                               inventoryController.inventorys.refresh();
                               if (context.mounted) Navigator.pop(context);
                               if (context.mounted) {
@@ -273,10 +271,10 @@ class InventoryForm extends HookWidget {
                                 ukuran: editingUkuran.text,
                                 isHargaJualPersen: true,
                                 hargaJualPersen:
-                                    double.parse(editingHargaJualPersen.text),
+                                    int.parse(editingHargaJualPersen.text),
                                 hargaDasar: int.parse(editingHargaDasar.text),
                                 diskonPersen:
-                                    double.tryParse(editingDiscount.text),
+                                    int.tryParse(editingDiscount.text),
                                 jumlahBarang: stock.value,
                                 createdAt: item.createdAt,
                               );
@@ -301,10 +299,10 @@ class InventoryForm extends HookWidget {
                                   ukuran: editingUkuran.text,
                                   isHargaJualPersen: true,
                                   hargaJualPersen:
-                                      double.parse(editingHargaJualPersen.text),
+                                      int.parse(editingHargaJualPersen.text),
                                   hargaDasar: int.parse(editingHargaDasar.text),
                                   diskonPersen:
-                                      double.tryParse(editingDiscount.text),
+                                      int.tryParse(editingDiscount.text),
                                   jumlahBarang: stock.value,
                                   createdAt: DateTime.now());
 

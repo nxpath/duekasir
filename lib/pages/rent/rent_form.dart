@@ -1,8 +1,8 @@
 import 'package:due_kasir/controller/inventory_controller.dart';
 import 'package:due_kasir/controller/rent_controller.dart';
 import 'package:due_kasir/main.dart';
-import 'package:due_kasir/model/rent_item_model.dart';
-import 'package:due_kasir/model/rent_model.dart';
+import 'package:due_kasir/brick/model/rent_item.model.dart';
+import 'package:due_kasir/brick/model/rent.model.dart';
 import 'package:due_kasir/service/database.dart';
 import 'package:due_kasir/utils/constant.dart';
 import 'package:flutter/material.dart';
@@ -189,7 +189,7 @@ class RentForm extends HookWidget {
                                 final updateitem = RentModel(
                                   name: editingName.text,
                                   id: rent!.id,
-                                  item: item.id!,
+                                  item: item.id,
                                   amount: amount.value,
                                   identity: identity.value,
                                   picture: people.value,
@@ -224,7 +224,7 @@ class RentForm extends HookWidget {
                               final updateitem = RentModel(
                                 name: editingName.text,
                                 id: rent!.id,
-                                item: item.id!,
+                                item: item.id,
                                 amount: amount.value + pinalty.value,
                                 identity: identity.value,
                                 picture: people.value,
@@ -248,7 +248,7 @@ class RentForm extends HookWidget {
                               final newItem = RentModel(
                                 id: DateTime.now().microsecondsSinceEpoch,
                                 name: editingName.text,
-                                item: item.id!,
+                                item: item.id,
                                 amount: amount.value,
                                 identity: identity.value,
                                 picture: people.value,

@@ -1,6 +1,6 @@
 import 'package:due_kasir/controller/report_controller.dart';
 import 'package:due_kasir/controller/user_controller.dart';
-import 'package:due_kasir/model/penjualan_model.dart';
+import 'package:due_kasir/brick/model/penjualan.model.dart';
 import 'package:due_kasir/utils/constant.dart';
 import 'package:due_kasir/widget/indicator.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -44,7 +44,7 @@ class ReportPie extends StatelessWidget {
               children: users.value
                       ?.map(
                         (u) => Indicator(
-                          color: converColor(u.id!),
+                          color: converColor(u.id),
                           text: u.nama,
                           isSquare: false,
                         ),

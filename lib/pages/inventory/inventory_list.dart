@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:csv/csv.dart';
 import 'package:due_kasir/controller/inventory_controller.dart';
-import 'package:due_kasir/model/item_model.dart';
+import 'package:due_kasir/brick/model/item.model.dart';
 import 'package:due_kasir/utils/constant.dart';
 import 'package:due_kasir/utils/extension.dart';
 import 'package:file_picker/file_picker.dart';
@@ -165,7 +165,8 @@ class InventoryList extends HookWidget {
                     children: items
                         .map((item) => ListTile(
                               leading: Text(item.id.toString()),
-                              title: Text('${item.nama} (${item.jumlahBarang} Stock)'),
+                              title: Text(
+                                  '${item.nama} (${item.jumlahBarang} Stock)'),
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -227,7 +228,8 @@ class InventoryList extends HookWidget {
                   dataRowMaxHeight: 80.0,
                   rows: items
                       .map((item) => DataRow(cells: [
-                            DataCell(Text((items.indexOf(item) + 1).toString())),
+                            DataCell(
+                                Text((items.indexOf(item) + 1).toString())),
                             DataCell(Text(item.nama)),
                             DataCell(Text(item.code)),
                             DataCell(Text(item.jumlahBarang.toString())),

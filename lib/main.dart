@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:due_kasir/brick/repository.dart';
 import 'package:due_kasir/routes/router.dart';
 import 'package:due_kasir/service/get_it.dart';
 import 'package:due_kasir/utils/env.dart';
@@ -10,16 +11,20 @@ import 'package:go_router/go_router.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:signals/signals_flutter.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 final isDeviceConnected = signal(false);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Supabase.initialize(
-    url: Environment.url,
-    anonKey: Environment.anonKey,
+  // await Supabase.initialize(
+  //   url: Environment.url,
+  //   anonKey: Environment.anonKey,
+  // );
+  await Repository.initializeSupabaseAndConfigure(
+    supabaseUrl: Environment.url,
+    supabaseAnonKey: Environment.anonKey,
   );
+  await Repository().initialize();
   setup();
   runApp(const MyApp());
 }

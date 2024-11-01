@@ -1,5 +1,5 @@
 import 'package:due_kasir/controller/user_controller.dart';
-import 'package:due_kasir/model/user_model.dart';
+import 'package:due_kasir/brick/model/user.model.dart';
 import 'package:due_kasir/service/database.dart';
 import 'package:due_kasir/utils/date_utils.dart';
 import 'package:flutter/material.dart';
@@ -134,7 +134,7 @@ class UserForm extends HookWidget {
                         ShadButton.destructive(
                           child: const Text('Delete'),
                           onPressed: () {
-                            Database().deleteUser(user.id!).whenComplete(() {
+                            Database().deleteUser(user).whenComplete(() {
                               userController.users.refresh();
                               Navigator.pop(context);
                             });
@@ -154,7 +154,7 @@ class UserForm extends HookWidget {
                                 status: status.value,
                                 keterangan: role.value,
                                 masuk: DateTime.now(),
-                                createdAt: user.createdAt,
+                                createdAt: DateTime.now(),
                               );
                               Database()
                                   .updateUser(updateUser)

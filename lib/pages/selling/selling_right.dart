@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:due_kasir/brick/model/product_item.model.dart';
 import 'package:due_kasir/controller/selling/events.dart';
 import 'package:due_kasir/controller/selling_controller.dart';
 import 'package:due_kasir/controller/store_controller.dart';
 import 'package:due_kasir/enum/payment_enum.dart';
-import 'package:due_kasir/model/item_model.dart';
-import 'package:due_kasir/model/penjualan_model.dart';
-import 'package:due_kasir/model/store_model.dart';
+import 'package:due_kasir/brick/model/item.model.dart';
+import 'package:due_kasir/brick/model/penjualan.model.dart';
+import 'package:due_kasir/brick/model/store.model.dart';
 import 'package:due_kasir/pages/customer/customer_sheet.dart';
 import 'package:due_kasir/service/database.dart';
 import 'package:due_kasir/service/get_it.dart';
@@ -17,7 +18,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:print_bluetooth_thermal/print_bluetooth_thermal.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:signals/signals_flutter.dart';
@@ -98,22 +98,20 @@ class SellingRightState extends State<SellingRight> {
                       store.hasValue) {
                     List<ProductItemModel> products = [];
                     for (ItemModel p in list.value!.items) {
-                      products.add(
-                        ProductItemModel()
-                          ..id = p.id!
-                          ..nama = p.nama
-                          ..code = p.code
-                          ..quantity = p.quantity
-                          ..hargaJual = p.hargaJual
-                          ..ukuran = p.ukuran
-                          ..isHargaJualPersen = p.isHargaJualPersen
-                          ..hargaJualPersen = p.hargaJualPersen
-                          ..hargaDasar = p.hargaDasar
-                          ..diskonPersen = p.diskonPersen
-                          ..deskripsi = p.deskripsi
-                          ..jumlahBarang = p.jumlahBarang
-                          ..isSynced = p.isSynced,
-                      );
+                      products.add(ProductItemModel(
+                        id: p.id,
+                        nama: p.nama,
+                        code: p.code,
+                        quantity: p.quantity,
+                        hargaJual: p.hargaJual,
+                        ukuran: p.ukuran,
+                        isHargaJualPersen: p.isHargaJualPersen,
+                        hargaJualPersen: p.hargaJualPersen?.toInt(),
+                        hargaDasar: p.hargaDasar,
+                        diskonPersen: p.diskonPersen,
+                        deskripsi: p.deskripsi,
+                        jumlahBarang: p.jumlahBarang,
+                      ));
                     }
                     final newItem = PenjualanModel(
                       id: DateTime.now().microsecondsSinceEpoch,
@@ -158,20 +156,20 @@ class SellingRightState extends State<SellingRight> {
                     List<ProductItemModel> products = [];
                     for (ItemModel p in list.value!.items) {
                       products.add(
-                        ProductItemModel()
-                          ..id = p.id!
-                          ..nama = p.nama
-                          ..code = p.code
-                          ..quantity = p.quantity
-                          ..hargaJual = p.hargaJual
-                          ..ukuran = p.ukuran
-                          ..isHargaJualPersen = p.isHargaJualPersen
-                          ..hargaJualPersen = p.hargaJualPersen
-                          ..hargaDasar = p.hargaDasar
-                          ..diskonPersen = p.diskonPersen
-                          ..deskripsi = p.deskripsi
-                          ..jumlahBarang = p.jumlahBarang
-                          ..isSynced = p.isSynced,
+                        ProductItemModel(
+                          id: p.id,
+                          nama: p.nama,
+                          code: p.code,
+                          quantity: p.quantity,
+                          hargaJual: p.hargaJual,
+                          ukuran: p.ukuran,
+                          isHargaJualPersen: p.isHargaJualPersen,
+                          hargaJualPersen: p.hargaJualPersen,
+                          hargaDasar: p.hargaDasar,
+                          diskonPersen: p.diskonPersen,
+                          deskripsi: p.deskripsi,
+                          jumlahBarang: p.jumlahBarang,
+                        ),
                       );
                     }
                     final newItem = PenjualanModel(

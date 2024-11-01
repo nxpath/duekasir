@@ -1,5 +1,5 @@
 import 'package:due_kasir/controller/request_controller.dart';
-import 'package:due_kasir/model/request_model.dart';
+import 'package:due_kasir/brick/model/request.model.dart';
 import 'package:due_kasir/pages/request/request_form.dart';
 import 'package:due_kasir/service/supabase_service.dart';
 import 'package:due_kasir/utils/date_utils.dart';
