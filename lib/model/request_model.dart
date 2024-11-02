@@ -1,14 +1,8 @@
-import 'package:isar/isar.dart';
-
-part 'request_model.g.dart';
-
-@collection
 class RequestModel {
-  Id? id = Isar.autoIncrement;
+  int? id;
   String? title;
   String? note;
   String? status;
-  @Name("created_at")
   DateTime? createdAt;
 
   RequestModel({

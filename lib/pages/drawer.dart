@@ -1,5 +1,4 @@
 import 'package:due_kasir/controller/auth_controller.dart';
-import 'package:due_kasir/service/database.dart';
 import 'package:due_kasir/utils/date_utils.dart';
 import 'package:due_kasir/utils/extension.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +28,7 @@ class NavDrawer extends StatelessWidget {
                       ? const Color(0xff164863)
                       : const Color(0xffF6F6F6)),
               accountName: Text(
-                  '${auth.value?.user.value?.nama ?? "Kasir"} - ${auth.value?.user.value?.keterangan ?? "Role"}',
+                  '${auth.value?.user?.nama ?? "Kasir"} - ${auth.value?.user?.keterangan ?? "Role"}',
                   style: ShadTheme.of(context).textTheme.h3),
               accountEmail: Text(user?.email ?? '',
                   style: ShadTheme.of(context).textTheme.muted),
@@ -121,70 +120,9 @@ class NavDrawer extends StatelessWidget {
               trailing: PopupMenuButton<String>(
                 icon: const Icon(Icons.more_vert),
                 onSelected: (item) async {
-                  if (item == 'restore') {
-                    ShadToaster.of(context).show(
-                      ShadToast(
-                        title: const Text('Restore Backup?'),
-                        description:
-                            const Text('Please pick isar file to restore'),
-                        action: ShadButton.outline(
-                          child: const Text('Select'),
-                          onPressed: () => Database().restoreDB().whenComplete(
-                            () {
-                              if (context.mounted) {
-                                ShadToaster.of(context).show(
-                                  const ShadToast(
-                                    title: Text('Restore Database Success!'),
-                                    description: Text(
-                                        'Please make sure all data is imported'),
-                                  ),
-                                );
-                              }
-                            },
-                          ),
-                        ),
-                      ),
-                    );
-                  } else if (item == 'login') {
+                  if (item == 'login') {
                     context.pop();
                     context.push('/login');
-                  } else if (item == 'backup') {
-                    context.pop();
-                    Database().createBackUp().then((_) => const ShadToast(
-                          title: Text('Backup Database Success!'),
-                          description: Text('All your data on download folder'),
-                        ));
-                  } else if (item == 'clear') {
-                    context.pop();
-                    showShadDialog(
-                      context: context,
-                      builder: (context) => ShadDialog.alert(
-                        title: const Text('Are you absolutely sure?'),
-                        description: const Padding(
-                          padding: EdgeInsets.only(bottom: 8),
-                          child: Text(
-                            'This action cannot be undone. This will permanently delete your data.',
-                          ),
-                        ),
-                        actions: [
-                          ShadButton.outline(
-                            child: const Text('Cancel'),
-                            onPressed: () => Navigator.of(context).pop(false),
-                          ),
-                          ShadButton(
-                            child: const Text('Continue'),
-                            onPressed: () async {
-                              await Database().clearAllData().whenComplete(() {
-                                if (context.mounted) {
-                                  Navigator.of(context).pop(true);
-                                  context.go('/');
-                                }
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    );
                   } else if (item == 'logout') {
                     context.pop();
                     await Supabase.instance.client.auth.signOut();
@@ -194,18 +132,6 @@ class NavDrawer extends StatelessWidget {
                   }
                 },
                 itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                  const PopupMenuItem<String>(
-                    value: 'restore',
-                    child: Text('Restore'),
-                  ),
-                  const PopupMenuItem<String>(
-                    value: 'backup',
-                    child: Text('Backup'),
-                  ),
-                  const PopupMenuItem<String>(
-                    value: 'clear',
-                    child: Text('Clear/Reset'),
-                  ),
                   const PopupMenuItem<String>(
                     value: 'store',
                     child: Text('Store'),

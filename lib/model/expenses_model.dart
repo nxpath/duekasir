@@ -1,10 +1,5 @@
-import 'package:isar/isar.dart';
-
-part 'expenses_model.g.dart';
-
-@collection
 class ExpensesModel {
-  Id? id = Isar.autoIncrement;
+  int? id;
   String title;
   String? note;
   int amount;

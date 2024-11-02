@@ -1,11 +1,30 @@
 import 'package:due_kasir/model/user_model.dart';
-import 'package:isar/isar.dart';
 
-part 'auth_model.g.dart';
-
-@collection
 class AuthModel {
-  Id id = Isar.autoIncrement;
-  IsarLink<UserModel> user = IsarLink<UserModel>();
-  DateTime createdAt = DateTime.now();
+  int? id;
+  UserModel? user;
+  DateTime? createdAt;
+
+  AuthModel({
+    this.id,
+    this.user,
+    required this.createdAt,
+  });
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'user': user,
+      'createdAt': createdAt?.toIso8601String(),
+    };
+  }
+
+  factory AuthModel.fromJson(json) {
+    return AuthModel(
+      id: json['id'],
+      user: json['user'],
+      createdAt:
+          json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
+    );
+  }
 }

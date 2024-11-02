@@ -149,7 +149,7 @@ class _RequestFormState extends State<RequestForm> {
                   ],
                   editorScrollController: editorScrollController,
                   editorState: editorState!,
-                  textDirection: TextDirection.ltr,
+                  textDirection: null,
                   child: AppFlowyEditor(
                     editorStyle: EditorStyle.desktop(
                       cursorWidth: 2.0,

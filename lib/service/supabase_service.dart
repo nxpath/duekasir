@@ -103,9 +103,9 @@ class SupabaseHelper {
     });
   }
 
-  Future<bool> getCustomerById(int id) async {
+  Future<CustomerModel> getCustomerById(int id) async {
     final res = await supabase.from('customer').select().eq("id", id);
-    return res.isNotEmpty;
+    return CustomerModel.fromJson(res);
   }
 
   updateCustomer(CustomerModel item) async {
@@ -126,22 +126,40 @@ class SupabaseHelper {
   }
 
   Future<List<PenjualanModel>> getRepots(
-      {DateTime? start, DateTime? end}) async {
+      {DateTime? start, DateTime? end, int? kasirId}) async {
     List<PenjualanModel> allReport = [];
 
     List<Map<String, dynamic>> result;
     if (start != null && end != null) {
-      result = await supabase
-          .from('report')
-          .select()
-          .eq('user', supabase.auth.currentUser!.id)
-          .gt('createdAt', start.toIso8601String())
-          .lt('createdAt', end.toIso8601String());
+      if (kasirId != null) {
+        result = await supabase
+            .from('report')
+            .select()
+            .eq('user', supabase.auth.currentUser!.id)
+            .eq('kasir', kasirId)
+            .gt('createdAt', start.toIso8601String())
+            .lt('createdAt', end.toIso8601String());
+      } else {
+        result = await supabase
+            .from('report')
+            .select()
+            .eq('user', supabase.auth.currentUser!.id)
+            .gt('createdAt', start.toIso8601String())
+            .lt('createdAt', end.toIso8601String());
+      }
     } else {
-      result = await supabase
-          .from('report')
-          .select()
-          .eq('user', supabase.auth.currentUser!.id);
+      if (kasirId != null) {
+        result = await supabase
+            .from('report')
+            .select()
+            .eq('user', supabase.auth.currentUser!.id)
+            .eq('kasir', kasirId);
+      } else {
+        result = await supabase
+            .from('report')
+            .select()
+            .eq('user', supabase.auth.currentUser!.id);
+      }
     }
 
     if (result.isNotEmpty) {
@@ -249,9 +267,9 @@ class SupabaseHelper {
     });
   }
 
-  Future<bool> getRentItemById(int id) async {
+  Future<RentItemModel> getRentItemById(int id) async {
     final res = await supabase.from('rent_items').select().eq("id", id);
-    return res.isNotEmpty;
+    return RentItemModel.fromJson(res);
   }
 
   Future<List<RentItemModel>> getRentItems() async {
@@ -419,18 +437,24 @@ class SupabaseHelper {
     });
   }
 
-  Future<bool> getUserById(int id) async {
+  Future<UserModel> getUserById(int id) async {
     final res = await supabase.from('users').select().eq("id", id);
-    return res.isNotEmpty;
+    return UserModel.fromJson(res.first);
   }
 
-  Future<List<UserModel>> getUsers() async {
+  Future<List<UserModel>> getUsers({String? name}) async {
     List<UserModel> users = [];
 
-    final result = await supabase
+    final query = supabase
         .from('users')
         .select()
         .eq('user', supabase.auth.currentUser!.id);
+
+    if (name != null) {
+      query.ilike('name', '%$name%');
+    }
+
+    final result = await query;
 
     if (result.isNotEmpty) {
       await Future.forEach(result, (val) async {

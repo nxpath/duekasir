@@ -1,12 +1,7 @@
 import 'dart:convert';
 
-import 'package:isar/isar.dart';
-
-part 'penjualan_model.g.dart';
-
-@collection
 class PenjualanModel {
-  Id? id = Isar.autoIncrement;
+  int? id;
   List<ProductItemModel> items = [];
   late int totalItem;
   late double totalHarga;
@@ -57,7 +52,6 @@ class PenjualanModel {
   }
 }
 
-@embedded
 class ProductItemModel {
   late int? id;
   late String? nama;

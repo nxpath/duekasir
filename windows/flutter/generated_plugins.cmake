@@ -6,7 +6,6 @@ list(APPEND FLUTTER_PLUGIN_LIST
   app_links
   connectivity_plus
   file_saver
-  isar_flutter_libs
   permission_handler_windows
   share_plus
   url_launcher_windows

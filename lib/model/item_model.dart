@@ -1,10 +1,5 @@
-import 'package:isar/isar.dart';
-
-part 'item_model.g.dart';
-
-@collection
 class ItemModel {
-  Id? id = Isar.autoIncrement;
+  int? id;
   String nama;
   String code;
   String? deskripsi;

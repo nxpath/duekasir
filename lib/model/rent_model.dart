@@ -1,10 +1,5 @@
-import 'package:isar/isar.dart';
-
-part 'rent_model.g.dart';
-
-@collection
 class RentModel {
-  Id? id = Isar.autoIncrement;
+  int? id;
   String name;
   int item;
   String? note;

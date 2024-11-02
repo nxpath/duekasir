@@ -36,15 +36,16 @@ class UsersSheet extends StatelessWidget {
                           .map((p) => ListTile(
                                 title: Text(p.nama),
                                 subtitle: Text(p.keterangan ?? ''),
-                                trailing: Icon(
-                                    auth.value?.user.value?.id == p.id
-                                        ? Icons.check_box
-                                        : Icons.check_box_outline_blank),
+                                trailing: Icon(auth.value?.user?.id == p.id
+                                    ? Icons.check_box
+                                    : Icons.check_box_outline_blank),
                                 onTap: () async {
                                   if (auth.hasValue) {
-                                    final user = AuthModel()
-                                      ..id = auth.value!.id
-                                      ..user.value = p;
+                                    final user = AuthModel(
+                                      id: auth.value!.id,
+                                      user: p,
+                                      createdAt: auth.value!.createdAt,
+                                    );
                                     await Database()
                                         .changeUser(user)
                                         .whenComplete(
@@ -52,9 +53,11 @@ class UsersSheet extends StatelessWidget {
                                               authController.customer.refresh(),
                                         );
                                   } else {
-                                    final user = AuthModel()
-                                      ..user.value = p
-                                      ..createdAt = DateTime.now();
+                                    final user = AuthModel(
+                                      id: DateTime.now().microsecondsSinceEpoch,
+                                      user: p,
+                                      createdAt: DateTime.now(),
+                                    );
                                     await Database().loginUser(user);
                                   }
                                   authController.customer.refresh();

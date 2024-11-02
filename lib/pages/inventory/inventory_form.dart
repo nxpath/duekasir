@@ -155,7 +155,7 @@ class InventoryForm extends HookWidget {
                               200,
                               (val) =>
                                   ShadOption(value: val, child: Text('$val'))),
-                          onChanged: (val) => stock.value = val,
+                          onChanged: (val) => stock.value = val!.toInt(),
                           selectedOptionBuilder: (context, value) {
                             stock.value = value;
                             return Text('$value');

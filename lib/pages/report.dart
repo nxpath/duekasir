@@ -29,7 +29,7 @@ class Report extends StatefulWidget {
   @override
   State<Report> createState() => _ReportState();
 }
-
+ 
 class _ReportState extends State<Report> {
   int touchedIndex = -1;
   @override
@@ -71,29 +71,7 @@ class _ReportState extends State<Report> {
             ),
             child: Text(isLoading ? 'Loading...' : 'Refresh'),
           ),
-          PopupMenuButton<String>(
-            onSelected: (item) async {
-              if (item == 'sync') {
-                await Database().checkIsReportSynced();
-                reportController.report.refresh();
-                reportController.reportToday.refresh();
-                reportController.reportYesterday.refresh();
-              }
-            },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-              const PopupMenuItem<String>(
-                value: 'sync',
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.restore),
-                    SizedBox(width: 8),
-                    Text('Sync'),
-                  ],
-                ),
-              ),
-            ],
-          ),
+      
         ],
       ),
       body: SingleChildScrollView(

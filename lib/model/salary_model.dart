@@ -1,10 +1,5 @@
-import 'package:isar/isar.dart';
-
-part 'salary_model.g.dart';
-
-@collection
 class SalaryModel {
-  Id? id = Isar.autoIncrement;
+  int? id;
   int userId;
   String status;
   String periode;
@@ -62,7 +57,6 @@ class SalaryModel {
   }
 }
 
-@embedded
 class ItemSalary {
   int? id;
   String? description;
