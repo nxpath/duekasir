@@ -25,6 +25,7 @@ Future<ItemModel> _$ItemModelFromSupabase(Map<String, dynamic> data,
       createdAt: data['createdAt'] == null
           ? null
           : DateTime.tryParse(data['createdAt'] as String),
+      user: data['user'] as String?,
       id: data['id'] as int?);
 }
 
@@ -46,6 +47,7 @@ Future<Map<String, dynamic>> _$ItemModelToSupabase(ItemModel instance,
     'barangMasuk': instance.barangMasuk?.toIso8601String(),
     'barangKeluar': instance.barangKeluar?.toIso8601String(),
     'createdAt': instance.createdAt?.toIso8601String(),
+    'user': instance.user,
     'id': instance.id
   };
 }
@@ -84,6 +86,7 @@ Future<ItemModel> _$ItemModelFromSqlite(Map<String, dynamic> data,
           : data['created_at'] == null
               ? null
               : DateTime.tryParse(data['created_at'] as String),
+      user: data['user'] == null ? null : data['user'] as String?,
       id: data['id'] as int)
     ..primaryKey = data['_brick_id'] as int;
 }
@@ -106,6 +109,7 @@ Future<Map<String, dynamic>> _$ItemModelToSqlite(ItemModel instance,
     'barang_masuk': instance.barangMasuk?.toIso8601String(),
     'barang_keluar': instance.barangKeluar?.toIso8601String(),
     'created_at': instance.createdAt?.toIso8601String(),
+    'user': instance.user,
     'id': instance.id
   };
 }
@@ -175,6 +179,10 @@ class ItemModelAdapter extends OfflineFirstWithSupabaseAdapter<ItemModel> {
     'createdAt': const RuntimeSupabaseColumnDefinition(
       association: false,
       columnName: 'createdAt',
+    ),
+    'user': const RuntimeSupabaseColumnDefinition(
+      association: false,
+      columnName: 'user',
     ),
     'id': const RuntimeSupabaseColumnDefinition(
       association: false,
@@ -276,6 +284,12 @@ class ItemModelAdapter extends OfflineFirstWithSupabaseAdapter<ItemModel> {
       columnName: 'created_at',
       iterable: false,
       type: DateTime,
+    ),
+    'user': const RuntimeSqliteColumnDefinition(
+      association: false,
+      columnName: 'user',
+      iterable: false,
+      type: String,
     ),
     'id': const RuntimeSqliteColumnDefinition(
       association: false,

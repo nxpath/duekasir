@@ -33,6 +33,8 @@ import '../brick/model/customer.model.dart';
 import '../brick/model/user.model.dart';
 import '../brick/model/request.model.dart';
 import '../brick/model/penjualan.model.dart';
+import '../brick/model/product_item.model.dart';
+import '../brick/model/item_salary.model.dart';
 
 part 'adapters/store_model_adapter.g.dart';
 part 'adapters/expenses_model_adapter.g.dart';

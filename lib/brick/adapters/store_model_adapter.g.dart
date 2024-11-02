@@ -10,6 +10,7 @@ Future<StoreModel> _$StoreModelFromSupabase(Map<String, dynamic> data,
       phone: data['phone'] as String,
       footer: data['footer'] as String?,
       subFooter: data['subFooter'] as String?,
+      user: data['user'] as String?,
       id: data['id'] as int?);
 }
 
@@ -22,6 +23,7 @@ Future<Map<String, dynamic>> _$StoreModelToSupabase(StoreModel instance,
     'phone': instance.phone,
     'footer': instance.footer,
     'subFooter': instance.subFooter,
+    'user': instance.user,
     'id': instance.id
   };
 }
@@ -36,6 +38,7 @@ Future<StoreModel> _$StoreModelFromSqlite(Map<String, dynamic> data,
       footer: data['footer'] == null ? null : data['footer'] as String?,
       subFooter:
           data['sub_footer'] == null ? null : data['sub_footer'] as String?,
+      user: data['user'] == null ? null : data['user'] as String?,
       id: data['id'] as int)
     ..primaryKey = data['_brick_id'] as int;
 }
@@ -49,6 +52,7 @@ Future<Map<String, dynamic>> _$StoreModelToSqlite(StoreModel instance,
     'phone': instance.phone,
     'footer': instance.footer,
     'sub_footer': instance.subFooter,
+    'user': instance.user,
     'id': instance.id
   };
 }
@@ -82,6 +86,10 @@ class StoreModelAdapter extends OfflineFirstWithSupabaseAdapter<StoreModel> {
     'subFooter': const RuntimeSupabaseColumnDefinition(
       association: false,
       columnName: 'subFooter',
+    ),
+    'user': const RuntimeSupabaseColumnDefinition(
+      association: false,
+      columnName: 'user',
     ),
     'id': const RuntimeSupabaseColumnDefinition(
       association: false,
@@ -127,6 +135,12 @@ class StoreModelAdapter extends OfflineFirstWithSupabaseAdapter<StoreModel> {
     'subFooter': const RuntimeSqliteColumnDefinition(
       association: false,
       columnName: 'sub_footer',
+      iterable: false,
+      type: String,
+    ),
+    'user': const RuntimeSqliteColumnDefinition(
+      association: false,
+      columnName: 'user',
       iterable: false,
       type: String,
     ),

@@ -12,6 +12,7 @@ Future<PresenceModel> _$PresenceModelFromSupabase(Map<String, dynamic> data,
       path: data['path'] as String?,
       long: data['long'] as double?,
       lat: data['lat'] as double?,
+      belong: data['belong'] as String?,
       id: data['id'] as int?);
 }
 
@@ -26,6 +27,7 @@ Future<Map<String, dynamic>> _$PresenceModelToSupabase(PresenceModel instance,
     'path': instance.path,
     'long': instance.long,
     'lat': instance.lat,
+    'belong': instance.belong,
     'id': instance.id
   };
 }
@@ -41,6 +43,7 @@ Future<PresenceModel> _$PresenceModelFromSqlite(Map<String, dynamic> data,
       path: data['path'] == null ? null : data['path'] as String?,
       long: data['long'] == null ? null : data['long'] as double?,
       lat: data['lat'] == null ? null : data['lat'] as double?,
+      belong: data['belong'] == null ? null : data['belong'] as String?,
       id: data['id'] as int)
     ..primaryKey = data['_brick_id'] as int;
 }
@@ -56,6 +59,7 @@ Future<Map<String, dynamic>> _$PresenceModelToSqlite(PresenceModel instance,
     'path': instance.path,
     'long': instance.long,
     'lat': instance.lat,
+    'belong': instance.belong,
     'id': instance.id
   };
 }
@@ -98,6 +102,10 @@ class PresenceModelAdapter
     'lat': const RuntimeSupabaseColumnDefinition(
       association: false,
       columnName: 'lat',
+    ),
+    'belong': const RuntimeSupabaseColumnDefinition(
+      association: false,
+      columnName: 'belong',
     ),
     'id': const RuntimeSupabaseColumnDefinition(
       association: false,
@@ -157,6 +165,12 @@ class PresenceModelAdapter
       columnName: 'lat',
       iterable: false,
       type: double,
+    ),
+    'belong': const RuntimeSqliteColumnDefinition(
+      association: false,
+      columnName: 'belong',
+      iterable: false,
+      type: String,
     ),
     'id': const RuntimeSqliteColumnDefinition(
       association: false,

@@ -13,6 +13,7 @@ Future<UserModel> _$UserModelFromSupabase(Map<String, dynamic> data,
       masuk: data['masuk'] == null
           ? null
           : DateTime.tryParse(data['masuk'] as String),
+      user: data['user'] as String?,
       createdAt: DateTime.parse(data['createdAt'] as String),
       id: data['id'] as int?);
 }
@@ -26,6 +27,7 @@ Future<Map<String, dynamic>> _$UserModelToSupabase(UserModel instance,
     'keterangan': instance.keterangan,
     'status': instance.status,
     'masuk': instance.masuk?.toIso8601String(),
+    'user': instance.user,
     'createdAt': instance.createdAt.toIso8601String(),
     'id': instance.id
   };
@@ -49,6 +51,7 @@ Future<UserModel> _$UserModelFromSqlite(Map<String, dynamic> data,
           : data['masuk'] == null
               ? null
               : DateTime.tryParse(data['masuk'] as String),
+      user: data['user'] == null ? null : data['user'] as String?,
       createdAt: DateTime.parse(data['created_at'] as String),
       id: data['id'] as int)
     ..primaryKey = data['_brick_id'] as int;
@@ -63,6 +66,7 @@ Future<Map<String, dynamic>> _$UserModelToSqlite(UserModel instance,
     'keterangan': instance.keterangan,
     'status': instance.status ? 1 : 0,
     'masuk': instance.masuk?.toIso8601String(),
+    'user': instance.user,
     'created_at': instance.createdAt.toIso8601String(),
     'id': instance.id
   };
@@ -97,6 +101,10 @@ class UserModelAdapter extends OfflineFirstWithSupabaseAdapter<UserModel> {
     'masuk': const RuntimeSupabaseColumnDefinition(
       association: false,
       columnName: 'masuk',
+    ),
+    'user': const RuntimeSupabaseColumnDefinition(
+      association: false,
+      columnName: 'user',
     ),
     'createdAt': const RuntimeSupabaseColumnDefinition(
       association: false,
@@ -148,6 +156,12 @@ class UserModelAdapter extends OfflineFirstWithSupabaseAdapter<UserModel> {
       columnName: 'masuk',
       iterable: false,
       type: DateTime,
+    ),
+    'user': const RuntimeSqliteColumnDefinition(
+      association: false,
+      columnName: 'user',
+      iterable: false,
+      type: String,
     ),
     'createdAt': const RuntimeSqliteColumnDefinition(
       association: false,

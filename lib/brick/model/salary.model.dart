@@ -17,6 +17,8 @@ class SalaryModel extends OfflineFirstWithSupabaseModel {
   String? management;
   @Supabase(name: 'createdAt')
   DateTime? createdAt;
+  String? user;
+
   @Supabase(unique: true)
   @Sqlite(index: true, unique: true)
   final int id;
@@ -32,5 +34,6 @@ class SalaryModel extends OfflineFirstWithSupabaseModel {
     this.note,
     this.management,
     this.createdAt,
+    this.user,
   }) : id = id ?? DateTime.now().microsecondsSinceEpoch;
 }

@@ -14,6 +14,7 @@ class PresenceModel extends OfflineFirstWithSupabaseModel {
   String? path;
   double? long;
   double? lat;
+  String? belong;
 
   @Supabase(unique: true)
   @Sqlite(index: true, unique: true)
@@ -28,5 +29,6 @@ class PresenceModel extends OfflineFirstWithSupabaseModel {
     this.path,
     this.long,
     this.lat,
+    this.belong,
   }) : id = id ?? DateTime.now().microsecondsSinceEpoch;
 }

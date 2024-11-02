@@ -12,6 +12,7 @@ class UserModel extends OfflineFirstWithSupabaseModel {
   String? keterangan;
   late bool status;
   DateTime? masuk;
+  String? user;
   @Supabase(name: 'createdAt')
   DateTime createdAt;
 
@@ -26,6 +27,7 @@ class UserModel extends OfflineFirstWithSupabaseModel {
     this.keterangan,
     required this.status,
     this.masuk,
+    this.user,
     required this.createdAt,
   }) : id = id ?? DateTime.now().microsecondsSinceEpoch;
 }

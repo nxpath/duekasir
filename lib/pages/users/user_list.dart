@@ -66,7 +66,7 @@ class UserList extends HookWidget {
                     return [
                       for (UserModel user in data)
                         DataRow(cells: [
-                          DataCell(Text(user.id.toString())),
+                          DataCell(Text((data.indexOf(user) + 1).toString())),
                           DataCell(Text(user.nama)),
                           DataCell(Text(dateWithoutTime
                               .format(user.dob ?? DateTime.now()))),

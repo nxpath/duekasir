@@ -19,6 +19,7 @@ class RentItemModel extends OfflineFirstWithSupabaseModel {
   int rentOneMonth;
   @Supabase(name: 'createdAt')
   DateTime? createdAt;
+  String? user;
 
   @Supabase(unique: true)
   @Sqlite(index: true, unique: true)
@@ -34,5 +35,6 @@ class RentItemModel extends OfflineFirstWithSupabaseModel {
     required this.rentOneWeek,
     required this.rentOneMonth,
     this.createdAt,
+    this.user,
   }) : id = id ?? DateTime.now().microsecondsSinceEpoch;
 }

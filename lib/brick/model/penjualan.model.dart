@@ -17,7 +17,8 @@ class PenjualanModel extends OfflineFirstWithSupabaseModel {
   int? pembeli;
   String? keterangan;
   @Supabase(name: 'createdAt')
-  DateTime createdAt = DateTime.now();
+  DateTime createdAt;
+  String? user;
 
   @Supabase(unique: true)
   @Sqlite(index: true, unique: true)
@@ -32,6 +33,7 @@ class PenjualanModel extends OfflineFirstWithSupabaseModel {
     required this.kasir,
     this.pembeli,
     this.keterangan,
+    this.user,
     required this.createdAt,
   }) : id = id ?? DateTime.now().microsecondsSinceEpoch;
 }

@@ -12,6 +12,7 @@ class StoreModel extends OfflineFirstWithSupabaseModel {
   String? footer;
   @Supabase(name: 'subFooter')
   String? subFooter;
+  String? user;
 
   @Supabase(unique: true)
   @Sqlite(index: true, unique: true)
@@ -24,5 +25,6 @@ class StoreModel extends OfflineFirstWithSupabaseModel {
     required this.phone,
     this.footer,
     this.subFooter,
+    this.user,
   }) : id = id ?? DateTime.now().microsecondsSinceEpoch;
 }

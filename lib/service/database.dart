@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:brick_core/core.dart';
 import 'package:collection/collection.dart';
 import 'package:due_kasir/brick/model/auth_model.dart';
@@ -13,8 +15,10 @@ import 'package:due_kasir/brick/model/salary.model.dart';
 import 'package:due_kasir/brick/model/store.model.dart';
 import 'package:due_kasir/brick/model/user.model.dart';
 import 'package:due_kasir/brick/repository.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Database {
+  static final SupabaseClient supabase = Supabase.instance.client;
   // Auth Local
   Future<void> loginUser(AuthModel val) async {
     // final isar = await db;
@@ -52,6 +56,12 @@ class Database {
   }
 
   Future<List<UserModel>> getUsers({String? name}) async {
+    if (name == null || name.isEmpty) {
+      final query = Query(
+        where: [Where.exact('user', supabase.auth.currentUser!.id)],
+      );
+      return await Repository().get<UserModel>(query: query);
+    }
     final query = Query(where: [Where('nama').contains(name)]);
     final users = await Repository().get<UserModel>(query: query);
     return users;
@@ -77,7 +87,10 @@ class Database {
   }
 
   Future<List<CustomerModel>> getCustomers({String? name}) async {
-    final query = Query(where: [Where('nama').contains(name)]);
+    final query = Query(where: [
+      Where.exact('user', supabase.auth.currentUser!.id),
+      Where('nama').contains(name)
+    ]);
     final customer = await Repository().get<CustomerModel>(query: query);
     return customer;
   }
@@ -109,26 +122,41 @@ class Database {
 
   Future<List<ItemModel>> getInventorys({String? value}) async {
     if (value == null || value.isEmpty) {
-      return await Repository().get<ItemModel>();
+      final query = Query(where: [
+        Where.exact('user', supabase.auth.currentUser!.id),
+      ]);
+      return await Repository().get<ItemModel>(query: query);
     }
-    final query = Query(where: [Where('nama').contains(value)]);
+    final query = Query(where: [
+      Where.exact('user', supabase.auth.currentUser!.id),
+      Where('nama').contains(value)
+    ]);
     return await Repository().get<ItemModel>(query: query);
   }
 
   Future<List<ItemModel>> searchInventorys({String? value}) async {
-    final query = Query(
-        where: [Where('nama').contains(value), Where('code').contains(value)]);
+    final query = Query(where: [
+      Where.exact('user', supabase.auth.currentUser!.id),
+      Where('nama').contains(value),
+      Where('code').contains(value)
+    ]);
     return await Repository().get<ItemModel>(query: query);
   }
 
   Future<ItemModel?> searchByBarcode(String value) async {
-    final query = Query(where: [Where('code').contains(value)]);
+    final query = Query(where: [
+      Where.exact('user', supabase.auth.currentUser!.id),
+      Where('code').contains(value)
+    ]);
     final items = await Repository().get<ItemModel>(query: query);
     return items.first;
   }
 
   Future<List<ItemModel>> getOutStock() async {
-    final query = Query(where: [Where('code').isLessThan(1)]);
+    final query = Query(where: [
+      Where.exact('user', supabase.auth.currentUser!.id),
+      Where('code').isLessThan(1)
+    ]);
     final items = await Repository().get<ItemModel>(query: query);
     return items;
   }
@@ -144,13 +172,18 @@ class Database {
 
   Future<List<PenjualanModel>> getReport(
       {required DateTime start, required DateTime end}) async {
+    log('hello first $start ${start.copyWith(hour: 0, minute: 0, second: 0)}');
     final query = Query(where: [
-      Where('createdAt').isBetween(
-        start.copyWith(hour: 0, minute: 0, second: 0),
-        end.copyWith(hour: 23, minute: 59, second: 59),
-      )
+      // Where.exact('user', supabase.auth.currentUser!.id),
+      // Where('createdAt').isBetween(
+      //   start.copyWith(hour: 0, minute: 0, second: 0),
+      //   end.copyWith(hour: 23, minute: 59, second: 59),
+      // )
     ]);
-    return await Repository().get<PenjualanModel>(query: query);
+
+    final report = await Repository().get<PenjualanModel>();
+    log('hello $report');
+    return report;
   }
 
   Future<List<PenjualanModel>> getReportById({
@@ -159,6 +192,7 @@ class Database {
     int? userId,
   }) async {
     final query = Query(where: [
+      Where.exact('user', supabase.auth.currentUser!.id),
       Where('createdAt').isBetween(
         start.copyWith(hour: 0, minute: 0, second: 0),
         end.copyWith(hour: 23, minute: 59, second: 59),
@@ -170,6 +204,7 @@ class Database {
 
   Future<List<PenjualanModel>> getReportToday() async {
     final query = Query(where: [
+      Where.exact('user', supabase.auth.currentUser!.id),
       Where('createdAt').isBetween(
           DateTime.now().copyWith(hour: 0, minute: 0, second: 0),
           DateTime.now().copyWith(hour: 23, minute: 59, second: 59))
@@ -179,6 +214,7 @@ class Database {
 
   Future<List<PenjualanModel>> getReportYesterday() async {
     final query = Query(where: [
+      Where.exact('user', supabase.auth.currentUser!.id),
       Where('createdAt').isBetween(
           DateTime.now()
               .subtract(const Duration(days: 1))
@@ -191,7 +227,10 @@ class Database {
   }
 
   Future<Map<int, List<PenjualanModel>>> getSalesByUser() async {
-    final items = await Repository().get<PenjualanModel>();
+    final query = Query(
+      where: [Where.exact('user', supabase.auth.currentUser!.id)],
+    );
+    final items = await Repository().get<PenjualanModel>(query: query);
 
     final Map<int, List<PenjualanModel>> listOfOrders =
         items.groupListsBy((i) => i.kasir);
@@ -202,6 +241,7 @@ class Database {
   Future<Map<DateTime, List<PenjualanModel>>> getSalesByDate(
       {required DateTime start, required DateTime end}) async {
     final query = Query(where: [
+      Where.exact('user', supabase.auth.currentUser!.id),
       Where('createdAt').isBetween(
           start.copyWith(hour: 0, minute: 0, second: 0),
           end.copyWith(hour: 23, minute: 59, second: 59))
@@ -217,7 +257,10 @@ class Database {
   }
 
   Future<List<PenjualanModel>> getReportAll() async {
-    return await Repository().get<PenjualanModel>();
+    final query = Query(
+      where: [Where.exact('user', supabase.auth.currentUser!.id)],
+    );
+    return await Repository().get<PenjualanModel>(query: query);
   }
 
   Future<void> addStore(StoreModel val) async {
@@ -225,7 +268,10 @@ class Database {
   }
 
   Future<StoreModel?> getStore() async {
-    final store = await Repository().get<StoreModel>();
+    final query = Query(
+      where: [Where.exact('user', supabase.auth.currentUser!.id)],
+    );
+    final store = await Repository().get<StoreModel>(query: query);
     return store.first;
   }
 
@@ -237,6 +283,7 @@ class Database {
   Future<List<PresenceModel>> getPresense(
       {required DateTime start, required DateTime end}) async {
     final query = Query(where: [
+      Where.exact('belong', supabase.auth.currentUser!.id),
       Where('createdAt').isBetween(
           start.copyWith(hour: 0, minute: 0, second: 0),
           end.copyWith(hour: 23, minute: 59, second: 59))
@@ -250,7 +297,10 @@ class Database {
   }
 
   Future<List<RentItemModel>> getRentItem() async {
-    return await Repository().get<RentItemModel>();
+    final query = Query(where: [
+      Where.exact('user', supabase.auth.currentUser!.id),
+    ]);
+    return await Repository().get<RentItemModel>(query: query);
   }
 
   Future<RentItemModel?> getRentItemById(int id) async {
@@ -273,7 +323,10 @@ class Database {
   }
 
   Future<List<RentModel>> getRent() async {
-    return await Repository().get<RentModel>();
+    final query = Query(where: [
+      Where.exact('user', supabase.auth.currentUser!.id),
+    ]);
+    return await Repository().get<RentModel>(query: query);
   }
 
   Future<void> updateRent(RentModel val) async {
@@ -281,7 +334,10 @@ class Database {
   }
 
   Future<List<RentModel>> getRentRevenue() async {
-    return await Repository().get<RentModel>();
+    final query = Query(where: [
+      Where.exact('user', supabase.auth.currentUser!.id),
+    ]);
+    return await Repository().get<RentModel>(query: query);
   }
 
   // expenses
@@ -296,6 +352,7 @@ class Database {
   Future<List<ExpensesModel>> getExpenses(
       {required DateTime start, required DateTime end}) async {
     final query = Query(where: [
+      Where.exact('user', supabase.auth.currentUser!.id),
       Where('createdAt').isBetween(
           start.copyWith(hour: 0, minute: 0, second: 0),
           end.copyWith(hour: 23, minute: 59, second: 59))
@@ -309,7 +366,10 @@ class Database {
   }
 
   Future<List<SalaryModel>> getSalary() async {
-    return await Repository().get<SalaryModel>();
+    final query = Query(where: [
+      Where.exact('user', supabase.auth.currentUser!.id),
+    ]);
+    return await Repository().get<SalaryModel>(query: query);
   }
 
   Future<void> updateSalary(SalaryModel val) async {
@@ -334,7 +394,10 @@ class Database {
   }
 
   Future<List<DuePaymentModel>> getDuePayments({String? value}) async {
-    final query = Query(where: [Where('name').contains(value)]);
+    final query = Query(where: [
+      Where.exact('user', supabase.auth.currentUser!.id),
+      Where('name').contains(value)
+    ]);
     return await Repository().get<DuePaymentModel>(query: query);
   }
 }

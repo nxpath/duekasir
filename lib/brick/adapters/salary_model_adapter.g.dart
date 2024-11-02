@@ -26,6 +26,7 @@ Future<SalaryModel> _$SalaryModelFromSupabase(Map<String, dynamic> data,
       createdAt: data['createdAt'] == null
           ? null
           : DateTime.tryParse(data['createdAt'] as String),
+      user: data['user'] as String?,
       id: data['id'] as int?);
 }
 
@@ -49,6 +50,7 @@ Future<Map<String, dynamic>> _$SalaryModelToSupabase(SalaryModel instance,
     'note': instance.note,
     'management': instance.management,
     'createdAt': instance.createdAt?.toIso8601String(),
+    'user': instance.user,
     'id': instance.id
   };
 }
@@ -97,6 +99,7 @@ Future<SalaryModel> _$SalaryModelFromSqlite(Map<String, dynamic> data,
           : data['created_at'] == null
               ? null
               : DateTime.tryParse(data['created_at'] as String),
+      user: data['user'] == null ? null : data['user'] as String?,
       id: data['id'] as int)
     ..primaryKey = data['_brick_id'] as int;
 }
@@ -112,6 +115,7 @@ Future<Map<String, dynamic>> _$SalaryModelToSqlite(SalaryModel instance,
     'note': instance.note,
     'management': instance.management,
     'created_at': instance.createdAt?.toIso8601String(),
+    'user': instance.user,
     'id': instance.id
   };
 }
@@ -165,6 +169,10 @@ class SalaryModelAdapter extends OfflineFirstWithSupabaseAdapter<SalaryModel> {
     'createdAt': const RuntimeSupabaseColumnDefinition(
       association: false,
       columnName: 'createdAt',
+    ),
+    'user': const RuntimeSupabaseColumnDefinition(
+      association: false,
+      columnName: 'user',
     ),
     'id': const RuntimeSupabaseColumnDefinition(
       association: false,
@@ -236,6 +244,12 @@ class SalaryModelAdapter extends OfflineFirstWithSupabaseAdapter<SalaryModel> {
       columnName: 'created_at',
       iterable: false,
       type: DateTime,
+    ),
+    'user': const RuntimeSqliteColumnDefinition(
+      association: false,
+      columnName: 'user',
+      iterable: false,
+      type: String,
     ),
     'id': const RuntimeSqliteColumnDefinition(
       association: false,

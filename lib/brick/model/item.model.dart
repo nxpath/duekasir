@@ -29,6 +29,7 @@ class ItemModel extends OfflineFirstWithSupabaseModel {
   DateTime? barangKeluar;
   @Supabase(name: 'createdAt')
   DateTime? createdAt;
+  String? user;
 
   @Supabase(unique: true)
   @Sqlite(index: true, unique: true)
@@ -50,5 +51,6 @@ class ItemModel extends OfflineFirstWithSupabaseModel {
     this.barangMasuk,
     this.barangKeluar,
     this.createdAt,
+    this.user,
   }) : id = id ?? DateTime.now().microsecondsSinceEpoch;
 }

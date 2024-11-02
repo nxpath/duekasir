@@ -18,6 +18,7 @@ Future<PenjualanModel> _$PenjualanModelFromSupabase(Map<String, dynamic> data,
       pembeli: data['pembeli'] as int?,
       keterangan: data['keterangan'] as String?,
       createdAt: DateTime.parse(data['createdAt'] as String),
+      user: data['user'] as String?,
       id: data['id'] as int?);
 }
 
@@ -36,6 +37,7 @@ Future<Map<String, dynamic>> _$PenjualanModelToSupabase(PenjualanModel instance,
     'pembeli': instance.pembeli,
     'keterangan': instance.keterangan,
     'createdAt': instance.createdAt.toIso8601String(),
+    'user': instance.user,
     'id': instance.id
   };
 }
@@ -66,6 +68,7 @@ Future<PenjualanModel> _$PenjualanModelFromSqlite(Map<String, dynamic> data,
       keterangan:
           data['keterangan'] == null ? null : data['keterangan'] as String?,
       createdAt: DateTime.parse(data['created_at'] as String),
+      user: data['user'] == null ? null : data['user'] as String?,
       id: data['id'] as int)
     ..primaryKey = data['_brick_id'] as int;
 }
@@ -81,6 +84,7 @@ Future<Map<String, dynamic>> _$PenjualanModelToSqlite(PenjualanModel instance,
     'pembeli': instance.pembeli,
     'keterangan': instance.keterangan,
     'created_at': instance.createdAt.toIso8601String(),
+    'user': instance.user,
     'id': instance.id
   };
 }
@@ -129,6 +133,10 @@ class PenjualanModelAdapter
     'createdAt': const RuntimeSupabaseColumnDefinition(
       association: false,
       columnName: 'createdAt',
+    ),
+    'user': const RuntimeSupabaseColumnDefinition(
+      association: false,
+      columnName: 'user',
     ),
     'id': const RuntimeSupabaseColumnDefinition(
       association: false,
@@ -194,6 +202,12 @@ class PenjualanModelAdapter
       columnName: 'created_at',
       iterable: false,
       type: DateTime,
+    ),
+    'user': const RuntimeSqliteColumnDefinition(
+      association: false,
+      columnName: 'user',
+      iterable: false,
+      type: String,
     ),
     'id': const RuntimeSqliteColumnDefinition(
       association: false,

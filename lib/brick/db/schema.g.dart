@@ -1,21 +1,26 @@
 // GENERATED CODE DO NOT EDIT
 // This file should be version controlled
 import 'package:brick_sqlite/db.dart';
-part '20241101232317.migration.dart';
 part '20241031104508.migration.dart';
 part '20241101231919.migration.dart';
 part '20241101232132.migration.dart';
+part '20241101232317.migration.dart';
+part '20241102001942.migration.dart';
+part '20241102002642.migration.dart';
 
 /// All intelligently-generated migrations from all `@Migratable` classes on disk
 final migrations = <Migration>{
-  const Migration20241101232317(),
   const Migration20241031104508(),
   const Migration20241101231919(),
-  const Migration20241101232132()
+  const Migration20241101232132(),
+  const Migration20241101232317(),
+  const Migration20241102001942(),
+  const Migration20241102002642()
 };
 
 /// A consumable database structure including the latest generated migration.
-final schema = Schema(20241101232317, generatorVersion: 1, tables: <SchemaTable>{
+final schema =
+    Schema(20241102002642, generatorVersion: 1, tables: <SchemaTable>{
   SchemaTable('StoreModel', columns: <SchemaColumn>{
     SchemaColumn('_brick_id', Column.integer,
         autoincrement: true, nullable: false, isPrimaryKey: true),
@@ -24,6 +29,7 @@ final schema = Schema(20241101232317, generatorVersion: 1, tables: <SchemaTable>
     SchemaColumn('phone', Column.varchar),
     SchemaColumn('footer', Column.varchar),
     SchemaColumn('sub_footer', Column.varchar),
+    SchemaColumn('user', Column.varchar),
     SchemaColumn('id', Column.integer, unique: true)
   }, indices: <SchemaIndex>{
     SchemaIndex(columns: ['id'], unique: true)
@@ -54,6 +60,7 @@ final schema = Schema(20241101232317, generatorVersion: 1, tables: <SchemaTable>
     SchemaColumn('rent_date', Column.datetime),
     SchemaColumn('updated_at', Column.datetime),
     SchemaColumn('created_at', Column.datetime),
+    SchemaColumn('user', Column.varchar),
     SchemaColumn('id', Column.integer, unique: true)
   }, indices: <SchemaIndex>{
     SchemaIndex(columns: ['id'], unique: true)
@@ -75,6 +82,7 @@ final schema = Schema(20241101232317, generatorVersion: 1, tables: <SchemaTable>
     SchemaColumn('barang_masuk', Column.datetime),
     SchemaColumn('barang_keluar', Column.datetime),
     SchemaColumn('created_at', Column.datetime),
+    SchemaColumn('user', Column.varchar),
     SchemaColumn('id', Column.integer, unique: true)
   }, indices: <SchemaIndex>{
     SchemaIndex(columns: ['id'], unique: true)
@@ -125,6 +133,7 @@ final schema = Schema(20241101232317, generatorVersion: 1, tables: <SchemaTable>
     SchemaColumn('note', Column.varchar),
     SchemaColumn('management', Column.varchar),
     SchemaColumn('created_at', Column.datetime),
+    SchemaColumn('user', Column.varchar),
     SchemaColumn('id', Column.integer, unique: true)
   }, indices: <SchemaIndex>{
     SchemaIndex(columns: ['id'], unique: true)
@@ -140,6 +149,7 @@ final schema = Schema(20241101232317, generatorVersion: 1, tables: <SchemaTable>
     SchemaColumn('rent_one_week', Column.integer),
     SchemaColumn('rent_one_month', Column.integer),
     SchemaColumn('created_at', Column.datetime),
+    SchemaColumn('user', Column.varchar),
     SchemaColumn('id', Column.integer, unique: true)
   }, indices: <SchemaIndex>{
     SchemaIndex(columns: ['id'], unique: true)
@@ -154,6 +164,7 @@ final schema = Schema(20241101232317, generatorVersion: 1, tables: <SchemaTable>
     SchemaColumn('path', Column.varchar),
     SchemaColumn('long', Column.Double),
     SchemaColumn('lat', Column.Double),
+    SchemaColumn('belong', Column.varchar),
     SchemaColumn('id', Column.integer, unique: true)
   }, indices: <SchemaIndex>{
     SchemaIndex(columns: ['id'], unique: true)
@@ -198,6 +209,7 @@ final schema = Schema(20241101232317, generatorVersion: 1, tables: <SchemaTable>
     SchemaColumn('keterangan', Column.varchar),
     SchemaColumn('status', Column.boolean),
     SchemaColumn('masuk', Column.datetime),
+    SchemaColumn('user', Column.varchar),
     SchemaColumn('created_at', Column.datetime),
     SchemaColumn('id', Column.integer, unique: true)
   }, indices: <SchemaIndex>{
@@ -242,6 +254,7 @@ final schema = Schema(20241101232317, generatorVersion: 1, tables: <SchemaTable>
     SchemaColumn('pembeli', Column.integer),
     SchemaColumn('keterangan', Column.varchar),
     SchemaColumn('created_at', Column.datetime),
+    SchemaColumn('user', Column.varchar),
     SchemaColumn('id', Column.integer, unique: true)
   }, indices: <SchemaIndex>{
     SchemaIndex(columns: ['id'], unique: true)
