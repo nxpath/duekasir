@@ -51,9 +51,9 @@ class UserList extends HookWidget {
                           DataCell(Text(''))
                         ])
                       ],
-                  error: (e) => [
+                  error: (e, __) => [
                         const DataRow(cells: [
-                          DataCell(Text('No Data')),
+                          DataCell(Text('No Data - Something Wrong')),
                           DataCell(Text('')),
                           DataCell(Text('')),
                           DataCell(Text('')),
@@ -66,7 +66,7 @@ class UserList extends HookWidget {
                     return [
                       for (Users user in data)
                         DataRow(cells: [
-                          DataCell(Text(user.id.toString())),
+                          DataCell(Text((data.indexOf(user) + 1).toString())),
                           DataCell(Text(user.nama)),
                           DataCell(Text(dateWithoutTime
                               .format(user.dob ?? DateTime.now()))),

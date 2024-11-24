@@ -94,7 +94,7 @@ class RentForm extends HookWidget {
                     }
                     amount.value = val!;
                   },
-                  initialValue: amount.value,
+                  initialValue: amount.value == 0 ? item.rentThreeDay : amount.value,
                   items: [
                     ShadRadio(
                       label: const Text('Rent for 3 Days'),

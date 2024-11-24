@@ -57,7 +57,8 @@ class SupabaseHelper {
     if (value != null) {
       filteredResult = result
           .where((element) =>
-              element['name'].toLowerCase().contains(value.toLowerCase()))
+              element['nama'].toLowerCase().contains(value.toLowerCase()) ||
+              element['code'].toLowerCase().contains(value.toLowerCase()))
           .toList();
     }
 
@@ -94,17 +95,6 @@ class SupabaseHelper {
         .single();
 
     return Inventory.fromMap(response);
-  }
-
-  Future<List<Inventory>> searchInventorys({String? value}) async {
-    final query = supabase.from('inventory').select();
-
-    if (value != null) {
-      query.or('nama.ilike.%$value%,code.ilike.%$value%');
-    }
-
-    final response = await query;
-    return response.map((e) => Inventory.fromMap(e)).toList();
   }
 
   updateInventory(Inventory item) async {
@@ -574,25 +564,20 @@ class SupabaseHelper {
   }
 
   Future<List<Users>> getUsers({String? name}) async {
-    List<Users> users = [];
-
-    final query = supabase
+    final result = await supabase
         .from('users')
         .select()
         .eq('user', supabase.auth.currentUser!.id);
 
+    List<dynamic> filteredResult = result;
+
     if (name != null) {
-      query.ilike('name', '%$name%');
+      filteredResult = result
+          .where((element) =>
+              element['nama'].toLowerCase().contains(name.toLowerCase()))
+          .toList();
     }
-
-    final result = await query;
-
-    if (result.isNotEmpty) {
-      await Future.forEach(result, (val) async {
-        users.add(Users.fromMap(val));
-      });
-    }
-    return users;
+    return filteredResult.map((val) => Users.fromMap(val)).toList();
   }
 
   removeUsers(int id) async {

@@ -76,7 +76,7 @@ class SellingLeft extends HookWidget {
                           return const Iterable<Inventory>.empty();
                         }
                         final data = await SupabaseHelper()
-                            .searchInventorys(value: textEditingValue.text);
+                            .getInventoryAll(value: textEditingValue.text);
                         return data;
                       },
                       onSelected: (Inventory value) {

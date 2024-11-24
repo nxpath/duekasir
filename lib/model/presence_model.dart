@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-
 class PresenseModel {
   final int id;
   final int? user;
@@ -71,14 +70,15 @@ class PresenseModel {
       path: map['path'] != null ? map['path'] as String : null,
       long: map['long'] != null ? map['long'] as double : null,
       lat: map['lat'] != null ? map['lat'] as double : null,
-      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
+      createdAt: DateTime.parse(map['createdAt'] as String),
       belong: map['belong'] != null ? map['belong'] as String : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory PresenseModel.fromJson(String source) => PresenseModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory PresenseModel.fromJson(String source) =>
+      PresenseModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -88,29 +88,28 @@ class PresenseModel {
   @override
   bool operator ==(covariant PresenseModel other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.id == id &&
-      other.user == user &&
-      other.status == status &&
-      other.note == note &&
-      other.path == path &&
-      other.long == long &&
-      other.lat == lat &&
-      other.createdAt == createdAt &&
-      other.belong == belong;
+
+    return other.id == id &&
+        other.user == user &&
+        other.status == status &&
+        other.note == note &&
+        other.path == path &&
+        other.long == long &&
+        other.lat == lat &&
+        other.createdAt == createdAt &&
+        other.belong == belong;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-      user.hashCode ^
-      status.hashCode ^
-      note.hashCode ^
-      path.hashCode ^
-      long.hashCode ^
-      lat.hashCode ^
-      createdAt.hashCode ^
-      belong.hashCode;
+        user.hashCode ^
+        status.hashCode ^
+        note.hashCode ^
+        path.hashCode ^
+        long.hashCode ^
+        lat.hashCode ^
+        createdAt.hashCode ^
+        belong.hashCode;
   }
 }

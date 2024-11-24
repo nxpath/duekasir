@@ -61,11 +61,11 @@ class Users {
     return Users(
       id: map['id'] as int,
       nama: map['nama'] as String,
-      dob: map['dob'] != null ? DateTime.fromMillisecondsSinceEpoch(map['dob'] as int) : null,
+      dob: map['dob'] != null ? DateTime.parse(map['dob'] as String) : null,
       keterangan: map['keterangan'] != null ? map['keterangan'] as String : null,
       status: map['status'] != null ? map['status'] as bool : null,
-      masuk: map['masuk'] != null ? DateTime.fromMillisecondsSinceEpoch(map['masuk'] as int) : null,
-      createdAt: map['createdAt'] != null ? DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int) : null,
+      masuk: map['masuk'] != null ? DateTime.parse(map['masuk'] as String) : null,
+      createdAt: map['createdAt'] != null ? DateTime.parse(map['createdAt'] as String) : null,
       user: map['user'] != null ? map['user'] as String : null,
     );
   }

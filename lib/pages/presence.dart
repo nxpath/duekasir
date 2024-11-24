@@ -116,7 +116,8 @@ class Presence extends StatelessWidget {
                         ],
                         rows: data
                             .map((val) => DataRow(cells: [
-                                  DataCell(Text(val.id.toString())),
+                                  DataCell(
+                                      Text((data.indexOf(val) + 1).toString())),
                                   DataCell(
                                     val.status == 'checkin'
                                         ? ShadBadge(

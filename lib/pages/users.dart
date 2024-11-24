@@ -29,28 +29,6 @@ class Users extends StatelessWidget {
             ),
             child: const Text('Refresh'),
           ),
-          // PopupMenuButton<String>(
-          //   onSelected: (item) async {
-          //     if (item == 'sync') {
-          //       Database()
-          //           .syncUsers()
-          //           .whenComplete(() => userController.users.refresh());
-          //     }
-          //   },
-          //   itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-          //     const PopupMenuItem<String>(
-          //       value: 'sync',
-          //       child: Row(
-          //         mainAxisSize: MainAxisSize.min,
-          //         children: [
-          //           Icon(Icons.restore),
-          //           SizedBox(width: 8),
-          //           Text('Sync'),
-          //         ],
-          //       ),
-          //     ),
-          //   ],
-          // ),
         ],
       ),
       body: const UserList(),

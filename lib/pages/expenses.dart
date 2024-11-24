@@ -35,27 +35,6 @@ class Expanses extends StatelessWidget {
             ),
             child: const Text('Refresh'),
           ),
-          // PopupMenuButton<String>(
-          //   onSelected: (item) async {
-          //     if (item == 'sync') {
-          //       await Database().expensesSync();
-          //       await expensesController.expenses.refresh();
-          //     }
-          //   },
-          //   itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-          //     const PopupMenuItem<String>(
-          //       value: 'sync',
-          //       child: Row(
-          //         mainAxisSize: MainAxisSize.min,
-          //         children: [
-          //           Icon(Icons.restore),
-          //           SizedBox(width: 8),
-          //           Text('Sync'),
-          //         ],
-          //       ),
-          //     ),
-          //   ],
-          // ),
         ],
       ),
       body: SingleChildScrollView(
@@ -129,7 +108,8 @@ class Expanses extends StatelessWidget {
                         ],
                         rows: data
                             .map((val) => DataRow(cells: [
-                                  DataCell(Text(val.id.toString())),
+                                  DataCell(
+                                      Text((data.indexOf(val) + 1).toString())),
                                   DataCell(Text(val.title ?? '')),
                                   DataCell(Text(currency.format(val.amount))),
                                   DataCell(Text(val.note ?? '')),
@@ -155,7 +135,7 @@ class Expanses extends StatelessWidget {
                   ],
                 );
               },
-              error: (e, __) => Text('$e'),
+              error: (e, __) => Text('$e ${__}'),
               loading: () => const Center(
                 child: CircularProgressIndicator(),
               ),

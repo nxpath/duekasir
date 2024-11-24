@@ -53,7 +53,7 @@ class Expenses {
       title: map['title'] != null ? map['title'] as String : null,
       note: map['note'] != null ? map['note'] as String : null,
       amount: map['amount'] != null ? map['amount'] as int : null,
-      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
+      createdAt: DateTime.parse(map['createdAt'] as String),
       user: map['user'] != null ? map['user'] as String : null,
     );
   }
