@@ -65,7 +65,6 @@ class UserForm extends HookWidget {
                               context: context,
                               initialDate: user?.dob ?? DateTime.now(),
                               firstDate: DateTime(1950),
-                              //DateTime.now() - not to allow to choose before today.
                               lastDate: DateTime(2100));
 
                           if (pickedDate != null) {
@@ -133,16 +132,17 @@ class UserForm extends HookWidget {
                       if (user != null)
                         ShadButton.destructive(
                           child: const Text('Delete'),
-                          onPressed: () {
-                            Database().deleteUser(user.id!).whenComplete(() {
-                              userController.users.refresh();
-                              Navigator.pop(context);
-                            });
+                          onPressed: () async {
+                            await Database().deleteUser(user.id!);
+                            userController.users.refresh();
+
+                            if (!context.mounted) return;
+                            Navigator.pop(context);
                           },
                         ),
                       ShadButton(
                         child: const Text('Save changes'),
-                        onPressed: () {
+                        onPressed: () async {
                           if (editingName.text.isEmpty) {
                             return;
                           } else {
@@ -156,14 +156,12 @@ class UserForm extends HookWidget {
                                 masuk: DateTime.now(),
                                 createdAt: user.createdAt,
                               );
-                              Database()
-                                  .updateUser(updateUser)
-                                  .whenComplete(() {
-                                Future.delayed(Durations.short1).then((_) {
-                                  userController.users.refresh();
-                                  context.pop();
-                                });
-                              });
+                              await Database().updateUser(updateUser);
+                              await Future.delayed(Durations.short1);
+
+                              userController.users.refresh();
+                              if (!context.mounted) return;
+                              context.pop();
                             } else {
                               final newUser = UserModel(
                                 id: DateTime.now().microsecondsSinceEpoch,
@@ -175,10 +173,11 @@ class UserForm extends HookWidget {
                                 createdAt: DateTime.now(),
                               );
 
-                              Database().addNewUser(newUser).whenComplete(() {
-                                userController.users.refresh();
-                                context.pop();
-                              });
+                              await Database().addNewUser(newUser);
+                              userController.users.refresh();
+
+                              if (!context.mounted) return;
+                              context.pop();
                             }
                           }
                         },
