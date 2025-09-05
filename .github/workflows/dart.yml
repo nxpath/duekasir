@@ -16,7 +16,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.24.0" # sesuaikan dengan project kamu
+          flutter-version: "3.24.0"
 
       - name: Install dependencies
         run: flutter pub get
@@ -27,10 +27,13 @@ jobs:
           dart format .
 
       - name: Analyze project source
-        run: flutter analyze || true  # jangan gagal kalau masih ada warning
+        run: flutter analyze || true
+
+      - name: Clean previous build
+        run: flutter clean
 
       - name: Build APK
-        run: flutter build apk --release
+        run: flutter build apk --release --no-tree-shake-icons
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
