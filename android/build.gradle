@@ -18,12 +18,30 @@ allprojects {
 }
 
 rootProject.buildDir = "../build"
+
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
 subprojects {
     project.evaluationDependsOn(":app")
 }
+
+// ===== FIX: Set default namespace untuk library yang tidak punya =====
+subprojects {
+    afterEvaluate { project ->
+        if (project.plugins.hasPlugin('com.android.library')) {
+            if (!project.hasProperty("android")) return
+            def androidExt = project.extensions.findByName("android")
+            if (androidExt != null && androidExt.hasProperty("namespace")) {
+                if (!androidExt.namespace) {
+                    androidExt.namespace = "com.devindo.due_kasir" // namespace default sementara
+                }
+            }
+        }
+    }
+}
+
+// ================= End Fix =================
 
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
