@@ -298,7 +298,7 @@ class _SalariesFormState extends State<SalariesForm> {
                     alignment: Alignment.bottomRight,
                     child: ShadButton(
                       child: const Text('Save'),
-                      onPressed: () {
+                      onPressed: () async {
                         if (salariesFormKey.currentState!.saveAndValidate()) {
                           SalaryModel salary = SalaryModel(
                             id: DateTime.now().microsecondsSinceEpoch,
@@ -315,10 +315,11 @@ class _SalariesFormState extends State<SalariesForm> {
                             createdAt: DateTime.now(),
                           );
 
-                          Database().addSalary(salary).whenComplete(() {
-                            salaryController.salaries.refresh();
-                            Navigator.of(context).pop(false);
-                          });
+                          await Database().addSalary(salary);
+                          salaryController.salaries.refresh();
+
+                          if (!mounted) return; // ✅ cek mounted sebelum pop
+                          Navigator.of(context).pop(false);
                         }
                       },
                     ),
