@@ -80,7 +80,7 @@ class _StoreState extends State<Store> {
                         children: [
                           ShadButton(
                             child: const Text('Save'),
-                            onPressed: () {
+                            onPressed: () async {
                               if (_storeFormKey.currentState!.validate()) {
                                 if (store.value != null) {
                                   final val = StoreModel(
@@ -91,21 +91,19 @@ class _StoreState extends State<Store> {
                                     footer: footer.text,
                                     subFooter: subFooter.text,
                                   );
-                                  Database().addStore(val).whenComplete(
-                                    () {
-                                      storeController.store.refresh();
-                                      context.pop();
-                                      ShadToaster.of(context).show(
-                                        const ShadToast(
-                                          backgroundColor: Colors.green,
-                                          description: Text(
-                                            'Store Success Updated',
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          ),
-                                        ),
-                                      );
-                                    },
+                                  await Database().addStore(val);
+                                  storeController.store.refresh();
+
+                                  if (!mounted) return; // ✅ amanin context
+                                  context.pop();
+                                  ShadToaster.of(context).show(
+                                    const ShadToast(
+                                      backgroundColor: Colors.green,
+                                      description: Text(
+                                        'Store Success Updated',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
                                   );
                                 } else {
                                   final val = StoreModel(
@@ -116,21 +114,19 @@ class _StoreState extends State<Store> {
                                     footer: footer.text,
                                     subFooter: subFooter.text,
                                   );
-                                  Database().addStore(val).whenComplete(
-                                    () {
-                                      storeController.store.refresh();
-                                      context.pop();
-                                      ShadToaster.of(context).show(
-                                        const ShadToast(
-                                          backgroundColor: Colors.green,
-                                          description: Text(
-                                            'Store Success Saved',
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          ),
-                                        ),
-                                      );
-                                    },
+                                  await Database().addStore(val);
+                                  storeController.store.refresh();
+
+                                  if (!mounted) return; // ✅ amanin context
+                                  context.pop();
+                                  ShadToaster.of(context).show(
+                                    const ShadToast(
+                                      backgroundColor: Colors.green,
+                                      description: Text(
+                                        'Store Success Saved',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
                                   );
                                 }
                               }
