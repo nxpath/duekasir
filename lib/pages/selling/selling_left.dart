@@ -14,11 +14,13 @@ import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
 class SellingLeft extends HookWidget {
   const SellingLeft({super.key});
+
   @override
   Widget build(context) {
     final editingBarcode = useTextEditingController(text: 'Scan Barcode...');
     final list = getIt.get<SellingController>().cart.watch(context);
     final isSearch = getIt.get<SellingController>().isSearch.watch(context);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: SingleChildScrollView(
@@ -32,32 +34,30 @@ class SellingLeft extends HookWidget {
                     icon: const Icon(Icons.camera_alt),
                     onPressed: () async {
                       var res = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                const SimpleBarcodeScannerPage(),
-                          ));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SimpleBarcodeScannerPage(),
+                        ),
+                      );
+
+                      if (!context.mounted) return;
+
                       final data = await Database().searchByBarcode(res);
                       if (data != null) {
                         editingBarcode.text = res;
-                        getIt
-                            .get<SellingController>()
-                            .dispatch(CartItemAdded(data));
+                        getIt.get<SellingController>().dispatch(CartItemAdded(data));
                       } else {
-                        if (context.mounted) {
-                          ShadToaster.of(context).show(
-                            ShadToast(
-                              backgroundColor: Colors.red,
-                              title: const Text('Item Not Found'),
-                              description:
-                                  const Text('You can add it on inventory'),
-                              action: ShadButton.outline(
-                                child: const Text('Ok'),
-                                onPressed: () => ShadToaster.of(context).hide(),
-                              ),
+                        ShadToaster.of(context).show(
+                          ShadToast(
+                            backgroundColor: Colors.red,
+                            title: const Text('Item Not Found'),
+                            description: const Text('You can add it on inventory'),
+                            action: ShadButton.outline(
+                              child: const Text('Ok'),
+                              onPressed: () => ShadToaster.of(context).hide(),
                             ),
-                          );
-                        }
+                          ),
+                        );
                       }
                     },
                   ),
@@ -70,19 +70,16 @@ class SellingLeft extends HookWidget {
                 if (isSearch)
                   Expanded(
                     child: Autocomplete<ItemModel>(
-                      optionsBuilder:
-                          (TextEditingValue textEditingValue) async {
+                      optionsBuilder: (TextEditingValue textEditingValue) async {
                         if (textEditingValue.text == '') {
                           return const Iterable<ItemModel>.empty();
                         }
-                        final data = await Database()
-                            .searchInventorys(value: textEditingValue.text);
+                        final data =
+                            await Database().searchInventorys(value: textEditingValue.text);
                         return data;
                       },
                       onSelected: (ItemModel value) {
-                        getIt
-                            .get<SellingController>()
-                            .dispatch(CartItemAdded(value));
+                        getIt.get<SellingController>().dispatch(CartItemAdded(value));
                       },
                       displayStringForOption: (option) => '',
                       optionsViewBuilder: (context, onSelected, options) {
@@ -98,12 +95,8 @@ class SellingLeft extends HookWidget {
                                     child: ListTile(
                                       leading: CircleAvatar(
                                         backgroundColor:
-                                            option.jumlahBarang == 0
-                                                ? Colors.red
-                                                : null,
-                                        child: Text(
-                                          option.jumlahBarang.toString(),
-                                        ),
+                                            option.jumlahBarang == 0 ? Colors.red : null,
+                                        child: Text(option.jumlahBarang.toString()),
                                       ),
                                       title: Text(option.nama),
                                       subtitle: Row(
@@ -111,25 +104,21 @@ class SellingLeft extends HookWidget {
                                           Text(
                                             currency.format(option.hargaJual),
                                             style: TextStyle(
-                                                color: option.diskonPersen ==
-                                                            null ||
-                                                        option.diskonPersen == 0
-                                                    ? Colors.green
-                                                    : Colors.red,
-                                                decoration: option
-                                                                .diskonPersen ==
-                                                            null ||
-                                                        option.diskonPersen == 0
-                                                    ? null
-                                                    : TextDecoration
-                                                        .lineThrough),
+                                              color: (option.diskonPersen == null ||
+                                                      option.diskonPersen == 0)
+                                                  ? Colors.green
+                                                  : Colors.red,
+                                              decoration: (option.diskonPersen == null ||
+                                                      option.diskonPersen == 0)
+                                                  ? null
+                                                  : TextDecoration.lineThrough,
+                                            ),
                                           ),
                                           if (option.diskonPersen != null &&
                                               option.diskonPersen != 0)
                                             Text(
                                               ' >> ${currency.format(option.hargaJual - option.hargaJual * (option.diskonPersen! / 100))}',
-                                              style: const TextStyle(
-                                                  color: Colors.green),
+                                              style: const TextStyle(color: Colors.green),
                                             ),
                                           Text(' - ${option.code}')
                                         ],
@@ -141,9 +130,9 @@ class SellingLeft extends HookWidget {
                           ),
                         );
                       },
-                      fieldViewBuilder: (context, textEditingController,
-                              focusNode, onFieldSubmitted) =>
-                          TextFormField(
+                      fieldViewBuilder:
+                          (context, textEditingController, focusNode, onFieldSubmitted) =>
+                              TextFormField(
                         controller: textEditingController,
                         focusNode: focusNode,
                         onEditingComplete: onFieldSubmitted,
@@ -165,26 +154,24 @@ class SellingLeft extends HookWidget {
                     onBarcodeScanned: (barcode) async {
                       final data = await Database()
                           .searchByBarcode(barcode.replaceAll('½', '-'));
+
+                      if (!context.mounted) return;
+
                       if (data != null) {
                         editingBarcode.text = barcode.replaceAll('½', '-');
-                        getIt
-                            .get<SellingController>()
-                            .dispatch(CartItemAdded(data));
+                        getIt.get<SellingController>().dispatch(CartItemAdded(data));
                       } else {
-                        if (context.mounted) {
-                          ShadToaster.of(context).show(
-                            ShadToast(
-                              backgroundColor: Colors.red,
-                              title: const Text('Item Not Found'),
-                              description:
-                                  const Text('You can add it on inventory'),
-                              action: ShadButton.outline(
-                                child: const Text('Ok'),
-                                onPressed: () => ShadToaster.of(context).hide(),
-                              ),
+                        ShadToaster.of(context).show(
+                          ShadToast(
+                            backgroundColor: Colors.red,
+                            title: const Text('Item Not Found'),
+                            description: const Text('You can add it on inventory'),
+                            action: ShadButton.outline(
+                              child: const Text('Ok'),
+                              onPressed: () => ShadToaster.of(context).hide(),
                             ),
-                          );
-                        }
+                          ),
+                        );
                       }
                     },
                     child: Expanded(
@@ -222,8 +209,7 @@ class SellingLeft extends HookWidget {
                           children: [
                             if (val.quantity > val.jumlahBarang)
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, top: 8.0),
+                                padding: const EdgeInsets.only(left: 8.0, top: 8.0),
                                 child: Text(
                                   'Melebihi Stok! Tersedia ${val.jumlahBarang}',
                                   style: ShadTheme.of(context)
@@ -239,67 +225,65 @@ class SellingLeft extends HookWidget {
                                   Text(
                                     currency.format(val.hargaJual),
                                     style: TextStyle(
-                                        color: val.diskonPersen == null ||
-                                                val.diskonPersen == 0
-                                            ? null
-                                            : Colors.red,
-                                        decoration: val.diskonPersen == null ||
-                                                val.diskonPersen == 0
-                                            ? null
-                                            : TextDecoration.lineThrough),
+                                      color: val.diskonPersen == null ||
+                                              val.diskonPersen == 0
+                                          ? null
+                                          : Colors.red,
+                                      decoration: val.diskonPersen == null ||
+                                              val.diskonPersen == 0
+                                          ? null
+                                          : TextDecoration.lineThrough,
+                                    ),
                                   ),
-                                  if (val.diskonPersen != null &&
-                                      val.diskonPersen != 0)
+                                  if (val.diskonPersen != null && val.diskonPersen != 0)
                                     Text(
-                                        ' >> ${currency.format(val.hargaJual - val.hargaJual * (val.diskonPersen! / 100))}'),
+                                      ' >> ${currency.format(val.hargaJual - val.hargaJual * (val.diskonPersen! / 100))}',
+                                    ),
                                 ],
                               ),
                               trailing: Text(val.quantity.toString()),
                               leading: IconButton(
-                                  onPressed: () => showShadDialog(
-                                        context: context,
-                                        builder: (context) => ShadDialog.alert(
-                                          title: const Text(
-                                              'Apakah kamu yakin akan menghapusnya?'),
-                                          description: const Padding(
-                                            padding: EdgeInsets.only(bottom: 8),
-                                            child: Text(
-                                              'Tindakan ini tidak dapat di kembalikan, data akan di hapus dari list',
-                                            ),
-                                          ),
-                                          actions: [
-                                            ShadButton.outline(
-                                              child: const Text('Batal'),
-                                              onPressed: () =>
-                                                  Navigator.of(context)
-                                                      .pop(false),
-                                            ),
-                                            ShadButton(
-                                                child: const Text('Lanjutkan'),
-                                                onPressed: () {
-                                                  getIt
-                                                      .get<SellingController>()
-                                                      .dispatch(
-                                                          CartItemRemoved(val));
-                                                  Navigator.of(context)
-                                                      .pop(true);
-                                                }),
-                                          ],
-                                        ),
+                                onPressed: () => showShadDialog(
+                                  context: context,
+                                  builder: (context) => ShadDialog.alert(
+                                    title: const Text(
+                                        'Apakah kamu yakin akan menghapusnya?'),
+                                    description: const Padding(
+                                      padding: EdgeInsets.only(bottom: 8),
+                                      child: Text(
+                                        'Tindakan ini tidak dapat di kembalikan, data akan di hapus dari list',
                                       ),
-                                  icon: const Icon(
-                                    Icons.delete_outline,
-                                    color: Colors.red,
-                                  )),
-                            )
+                                    ),
+                                    actions: [
+                                      ShadButton.outline(
+                                        child: const Text('Batal'),
+                                        onPressed: () => Navigator.of(context).pop(false),
+                                      ),
+                                      ShadButton(
+                                        child: const Text('Lanjutkan'),
+                                        onPressed: () {
+                                          getIt.get<SellingController>()
+                                              .dispatch(CartItemRemoved(val));
+                                          Navigator.of(context).pop(true);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                icon: const Icon(
+                                  Icons.delete_outline,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
                     )
                     .toList(),
               ),
-              error: (e, __) => Text('$__'),
-              loading: () => const Text('Loading'),
+              error: (e, stackTrace) => Text('$e'),
+              loading: () => const Center(child: CircularProgressIndicator()),
             ),
           ],
         ),
