@@ -32,6 +32,10 @@ jobs:
       - name: Clean previous build
         run: flutter clean
 
+      - name: Patch incompatible manifests
+        run: |
+          find $HOME/.pub-cache/hosted/pub.dev/ -name AndroidManifest.xml -exec sed -i 's/package=".*"//g' {} \;
+
       - name: Build APK
         run: flutter build apk --release --no-tree-shake-icons
 
