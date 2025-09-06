@@ -23,8 +23,8 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.24.0"
-          cache: true # Enable caching for faster builds
+          channel: 'beta' # Use the beta channel for a newer Dart SDK
+          cache: true
 
       - name: Install dependencies
         run: flutter pub get
@@ -33,7 +33,6 @@ jobs:
         run: |
           dart format --output=none --set-exit-if-changed .
           dart fix --apply
-
       - name: Analyze project source
         run: flutter analyze
 
