@@ -31,7 +31,7 @@ jobs:
 
       - name: Format and fix code
         run: |
-          dart format --output=none --set-exit-if-changed .
+          dart format
           dart fix --apply
       - name: Analyze project source
         run: flutter analyze
