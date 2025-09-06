@@ -30,10 +30,11 @@ subprojects {
         if (project.plugins.hasPlugin('com.android.library')) {
             if (!project.hasProperty("android")) return
             def androidExt = project.extensions.findByName("android")
-            if (androidExt != null && androidExt.hasProperty("namespace")) {
-                if (!androidExt.namespace) {
-                    // Namespace sementara untuk bypass error AGP
-                    androidExt.namespace = "com.devindo.due_kasir.fix"
+            if (androidExt != null) {
+                // Jika namespace tidak ada, kosong, atau null, set default namespace unik per project
+                if (!androidExt.hasProperty("namespace") || androidExt.namespace == null || androidExt.namespace == "") {
+                    androidExt.namespace = "com.devindo.due_kasir.fix_${project.name}"
+                    println("Set namespace for project ${project.name} => ${androidExt.namespace}")
                 }
             }
         }
@@ -41,7 +42,7 @@ subprojects {
 }
 // ================= End Fix =================
 
-// Bersihkan build
+// Register clean task
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
