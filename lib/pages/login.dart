@@ -53,31 +53,15 @@ class _LoginState extends State<Login> {
                 ),
                 ShadInputFormField(
                   id: 'password',
-                  placeholder: const Text('Password'),
+                  label: const Text('Password'),
+                  placeholder: const Text('Enter your password'),
                   obscureText: obscure,
-                  prefix: const Padding(
-                    padding: EdgeInsets.all(4.0),
-                    child: ShadImage.square(size: 16, LucideIcons.lock),
-                  ),
                   validator: (v) {
                     if (v.length < 5) {
-                      return 'Password must more then 5';
+                      return 'Password must be more than 5 characters';
                     }
                     return null;
                   },
-                  suffix: ShadButton(
-                    width: 24,
-                    height: 24,
-                    padding: EdgeInsets.zero,
-                    decoration: ShadDecoration.none,
-                    icon: ShadImage.square(
-                      size: 16,
-                      obscure ? LucideIcons.eyeOff : LucideIcons.eye,
-                    ),
-                    onPressed: () {
-                      setState(() => obscure = !obscure);
-                    },
-                  ),
                 ),
                 const SizedBox(height: 16),
                 ShadButton(
@@ -123,16 +107,19 @@ class _LoginState extends State<Login> {
                     }
                   },
                 ),
+                const SizedBox(height: 16),
                 Center(
                   child: RichText(
                     text: TextSpan(children: [
                       TextSpan(
-                        text: 'You Dont Have Account?',
+                        text: "You don't have an account?",
                         style: ShadTheme.of(context).textTheme.muted,
                       ),
                       TextSpan(
                         text: ' Register',
-                        style: ShadTheme.of(context).textTheme.p,
+                        style: ShadTheme.of(context).textTheme.p.copyWith(
+                              decoration: TextDecoration.underline,
+                            ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () => context.push('/register'),
                       ),

@@ -103,7 +103,7 @@ class _RequestFormState extends State<RequestForm> {
                     requestController.requests.refresh();
                     if (context.mounted) Navigator.pop(context);
                   },
-            icon: const Padding(
+            leading: const Padding(
               padding: EdgeInsets.only(right: 8),
               child: Icon(
                 Icons.save,
@@ -121,10 +121,11 @@ class _RequestFormState extends State<RequestForm> {
                       requestController.requests.refresh();
                       if (context.mounted) Navigator.pop(context);
                     },
-              icon: const Icon(
+              leading: const Icon(
                 Icons.delete,
                 size: 16,
               ),
+              child: const Text('Delete'),
             ),
         ],
       ),
@@ -176,6 +177,7 @@ class _RequestFormState extends State<RequestForm> {
                       // build appflowy editor
                       Expanded(
                         child: MobileFloatingToolbar(
+                          floatingToolbarHeight: 48.0,
                           editorState: editorState!,
                           editorScrollController: editorScrollController,
                           toolbarBuilder: (context, anchor, closeToolbar) {

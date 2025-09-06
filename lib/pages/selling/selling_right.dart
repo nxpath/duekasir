@@ -17,7 +17,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:print_bluetooth_thermal/print_bluetooth_thermal.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:signals/signals_flutter.dart';
@@ -142,7 +141,7 @@ class SellingRightState extends State<SellingRight> {
                     });
                   }
                 },
-                icon: const Padding(
+                leading: const Padding(
                   padding: EdgeInsets.only(right: 8),
                   child: Icon(
                     Icons.save,
@@ -221,7 +220,7 @@ class SellingRightState extends State<SellingRight> {
                     });
                   }
                 },
-                icon: Padding(
+                leading: Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: Icon(
                     isConnected && !Platform.isWindows || printName.isNotEmpty

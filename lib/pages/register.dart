@@ -48,29 +48,12 @@ class _RegisterState extends State<Register> {
                   id: 'password',
                   placeholder: const Text('Password'),
                   obscureText: obscure,
-                  prefix: const Padding(
-                    padding: EdgeInsets.all(4.0),
-                    child: ShadImage.square(size: 16, LucideIcons.lock),
-                  ),
                   validator: (v) {
                     if (v.length < 5) {
                       return 'Password must more then 5';
                     }
                     return null;
                   },
-                  suffix: ShadButton(
-                    width: 24,
-                    height: 24,
-                    padding: EdgeInsets.zero,
-                    decoration: ShadDecoration.none,
-                    icon: ShadImage.square(
-                      size: 16,
-                      obscure ? LucideIcons.eyeOff : LucideIcons.eye,
-                    ),
-                    onPressed: () {
-                      setState(() => obscure = !obscure);
-                    },
-                  ),
                 ),
                 const SizedBox(height: 16),
                 ShadButton(
@@ -105,7 +88,6 @@ class _RegisterState extends State<Register> {
                         }
                       } on AuthException catch (e) {
                         ShadAlert.destructive(
-                          iconSrc: LucideIcons.circleAlert,
                           title: const Text('Error'),
                           description: Text(e.message),
                         );

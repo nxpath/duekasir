@@ -42,7 +42,7 @@ class _SalariesState extends State<Salaries> {
           if (password != null)
             ShadButton.ghost(
               onPressed: () => context.push('/salaries/form'),
-              icon: const Padding(
+              leading: const Padding(
                 padding: EdgeInsets.only(right: 8),
                 child: Icon(
                   Icons.payment,
@@ -55,7 +55,7 @@ class _SalariesState extends State<Salaries> {
             onPressed: () {
               salaryController.salaries.refresh();
             },
-            icon: const Padding(
+            leading: const Padding(
               padding: EdgeInsets.only(right: 8),
               child: Icon(
                 Icons.refresh,
@@ -167,23 +167,6 @@ class _SalariesState extends State<Salaries> {
                       return null;
                     },
                     obscureText: obscure,
-                    prefix: const Padding(
-                      padding: EdgeInsets.all(4.0),
-                      child: ShadImage.square(size: 16, LucideIcons.lock),
-                    ),
-                    suffix: ShadButton(
-                      width: 24,
-                      height: 24,
-                      padding: EdgeInsets.zero,
-                      decoration: ShadDecoration.none,
-                      icon: ShadImage.square(
-                        size: 16,
-                        obscure ? LucideIcons.eyeOff : LucideIcons.eye,
-                      ),
-                      onPressed: () {
-                        setState(() => obscure = !obscure);
-                      },
-                    ),
                   ),
                 ),
               ),
@@ -347,7 +330,7 @@ class _SalariesState extends State<Salaries> {
                                     },
                                   ),
                                   ShadButton.destructive(
-                                    icon: const Icon(Icons.delete),
+                                    child: const Icon(Icons.delete),
                                     onPressed: () async {
                                       await Database().deleteSalary(item.id!);
                                       Future.delayed(Durations.medium1).then(

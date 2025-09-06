@@ -50,8 +50,7 @@ class UserForm extends HookWidget {
                 ),
                 ShadInputFormField(
                   controller: editingName,
-                  validator: (val) =>
-                      val.isEmpty ? 'Name is required' : null,
+                  validator: (val) => val.isEmpty ? 'Name is required' : null,
                   label: const Text('Nama'),
                   placeholder: const Text('Jhon Doe'),
                 ),

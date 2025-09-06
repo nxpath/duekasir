@@ -85,16 +85,20 @@ class ExpensesForm extends HookWidget {
                               lastDate: DateTime(2101));
                           date.value = pickedDate;
                         },
-                        icon: const Padding(
-                          padding: EdgeInsets.only(right: 8),
-                          child: Icon(
-                            Icons.date_range,
-                            size: 16,
-                          ),
+                        child: Row(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(right: 8),
+                              child: Icon(
+                                Icons.date_range,
+                                size: 16,
+                              ),
+                            ),
+                            Text(date.value == null
+                                ? 'Pick Date'
+                                : dateWithoutTime.format(date.value!)),
+                          ],
                         ),
-                        child: Text(date.value == null
-                            ? 'Pick Date'
-                            : dateWithoutTime.format(date.value!)),
                       ),
                     ),
                   ],

@@ -17,7 +17,7 @@ class RentItemForm extends HookWidget {
   RentItemForm({super.key});
   final statusData = {true: 'Active', false: 'Non Active'};
   @override
-  Widget build(context) {
+  Widget build(BuildContext context) {
     final rentItemFormKey = useMemoized(GlobalKey<FormState>.new);
     final item = rentController.rentItemSelected.watch(context);
     final editingName = useTextEditingController(text: item?.name ?? '');
@@ -88,21 +88,23 @@ class RentItemForm extends HookWidget {
                       child: const Padding(
                         padding: EdgeInsets.only(bottom: 5.0),
                         child: ShadButton.ghost(
-                          icon: Icon(Icons.barcode_reader),
+                          child: Icon(Icons.barcode_reader),
                         ),
                       ),
                     ),
                     if (PlatformExtension.isMobile)
                       ShadButton.ghost(
-                        icon: const Icon(Icons.camera_alt),
+                        child: const Icon(Icons.camera_alt),
                         onPressed: () async {
                           var res = await Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    const SimpleBarcodeScannerPage(),
+                                    const SimpleBarcodeScanner(),
                               ));
-                          editingCode.text = res;
+                          if (res is String && res != '-1') {
+                            editingCode.text = res;
+                          }
                         },
                       ),
                     Expanded(
@@ -110,12 +112,12 @@ class RentItemForm extends HookWidget {
                         margin: const EdgeInsets.only(bottom: 5),
                         child: ShadSelect<int>(
                           placeholder: const Text('Select a Stock'),
-                          initialValue: item?.jumlahBarang,
+                          initialValue: item?.jumlahBarang ?? 0,
                           options: List.generate(
                               10,
                               (val) =>
                                   ShadOption(value: val, child: Text('$val'))),
-                          onChanged: (val) => stock.value = val,
+                          onChanged: (val) => stock.value = val ?? 0,
                           selectedOptionBuilder: (context, value) {
                             stock.value = value;
                             return Text('$value');

@@ -42,7 +42,7 @@ class _MyAppState extends State<MyApp> {
     subscription = Connectivity()
         .onConnectivityChanged
         .listen((List<ConnectivityResult> result) async {
-      isDeviceConnected.value = await InternetConnectionChecker().hasConnection;
+      isDeviceConnected.value = await InternetConnectionChecker.createInstance().hasConnection;
       log("Internet status ====== $isDeviceConnected");
     });
   }
@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return ShadApp.materialRouter(
+    return ShadApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Due Kasir',
       routerConfig: _router,

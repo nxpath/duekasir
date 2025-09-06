@@ -105,7 +105,8 @@ class _SalariesFormState extends State<SalariesForm> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 10),
-                  Text('Information', style: ShadTheme.of(context).textTheme.h4),
+                  Text('Information',
+                      style: ShadTheme.of(context).textTheme.h4),
                   const SizedBox(height: 10),
                   Wrap(
                     children: [
@@ -116,11 +117,15 @@ class _SalariesFormState extends State<SalariesForm> {
                           label: const Text('User'),
                           onChanged: (v) => setState(() => user = v),
                           options: users.value!
-                              .map((u) => ShadOption(value: u, child: Text(u.nama)))
+                              .map((u) =>
+                                  ShadOption(value: u, child: Text(u.nama)))
                               .toList(),
-                          selectedOptionBuilder: (context, value) => Text(value.nama),
+                          selectedOptionBuilder: (context, value) =>
+                              Text(value.nama),
                           placeholder: const Text('User'),
-                          validator: (v) => v == null ? 'Please select an user to display' : null,
+                          validator: (v) => v == null
+                              ? 'Please select an user to display'
+                              : null,
                         ),
                       ShadSelectFormField<String>(
                         id: 'status',
@@ -132,7 +137,9 @@ class _SalariesFormState extends State<SalariesForm> {
                             .toList(),
                         selectedOptionBuilder: (context, value) => Text(value),
                         placeholder: const Text('Status'),
-                        validator: (v) => v == null ? 'Please select a status to display' : null,
+                        validator: (v) => v == null
+                            ? 'Please select a status to display'
+                            : null,
                       ),
                       SizedBox(
                         width: 320,
@@ -141,7 +148,9 @@ class _SalariesFormState extends State<SalariesForm> {
                           id: 'periode',
                           label: const Text('Periode'),
                           placeholder: const Text('Ex: Mei 2024'),
-                          validator: (v) => v.length < 2 ? 'Must be at least 2 characters.' : null,
+                          validator: (v) => v.length < 2
+                              ? 'Must be at least 2 characters.'
+                              : null,
                         ),
                       ),
                     ],
@@ -151,8 +160,7 @@ class _SalariesFormState extends State<SalariesForm> {
                     children: [
                       ShadButton.outline(
                         child: Text(
-                          'Filter: ${dateWithoutTime.format(dateRange.first)} - ${dateWithoutTime.format(dateRange.last)}'
-                        ),
+                            'Filter: ${dateWithoutTime.format(dateRange.first)} - ${dateWithoutTime.format(dateRange.last)}'),
                         onPressed: () async {
                           final results = await showCalendarDatePicker2Dialog(
                             context: context,
@@ -163,24 +171,26 @@ class _SalariesFormState extends State<SalariesForm> {
                             value: dateRange,
                             borderRadius: BorderRadius.circular(15),
                           );
-                          if (!mounted) return;
                           if (results != null) {
-                            salaryController.dateRange.value = [results.first!, results.last!];
+                            salaryController.dateRange.value = [
+                              results.first!,
+                              results.last!
+                            ];
                           }
                         },
                       ),
                       const SizedBox(width: 10),
                       reportBonus.map(
                         data: (data) => Text(
-                          'Hitungan ${currency.format(data.fold(0, (p, c) => p + c.totalHarga.toInt()))} >> Bonus : ${currency.format(data.fold(0, (p, c) => p + c.totalHarga.toInt()) * 1 / 100)}'
-                        ),
+                            'Hitungan ${currency.format(data.fold(0, (p, c) => p + c.totalHarga.toInt()))} >> Bonus : ${currency.format(data.fold(0, (p, c) => p + c.totalHarga.toInt()) * 1 / 100)}'),
                         loading: () => const CircularProgressIndicator(),
                         error: (e, __) => const Text('Error'),
                       )
                     ],
                   ),
                   const SizedBox(height: 10),
-                  Text('Detail Salary', style: ShadTheme.of(context).textTheme.h4),
+                  Text('Detail Salary',
+                      style: ShadTheme.of(context).textTheme.h4),
                   const SizedBox(height: 10),
                   ListView.builder(
                     itemCount: formItems.length,
@@ -191,7 +201,7 @@ class _SalariesFormState extends State<SalariesForm> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: ShadButton.secondary(
-                      icon: const Padding(
+                      leading: const Padding(
                         padding: EdgeInsets.only(right: 8),
                         child: Icon(Icons.add, size: 16),
                       ),
@@ -216,14 +226,15 @@ class _SalariesFormState extends State<SalariesForm> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: ShadButton.secondary(
-                      icon: const Padding(
+                      leading: const Padding(
                         padding: EdgeInsets.only(right: 8),
                         child: Icon(Icons.add, size: 16),
                       ),
                       onPressed: () {
                         setState(() {
                           deductionCount++;
-                          formDeductions.add(buildDeductionField(deductionCount));
+                          formDeductions
+                              .add(buildDeductionField(deductionCount));
                         });
                       },
                       child: const Text('Add Deduction'),
@@ -236,23 +247,27 @@ class _SalariesFormState extends State<SalariesForm> {
                     description: ShadButton.outline(
                       child: Text('Count Total: ${tempTotal ?? ''}'),
                       onPressed: () {
-                        int itemTotal = items.fold(0, (p, c) => p + int.parse(c.amount ?? '0'));
-                        int deductionTotal = deductions.fold(0, (p, c) => p + int.parse(c.amount ?? '0'));
+                        int itemTotal = items.fold(
+                            0, (p, c) => p + int.parse(c.amount ?? '0'));
+                        int deductionTotal = deductions.fold(
+                            0, (p, c) => p + int.parse(c.amount ?? '0'));
                         setState(() => tempTotal = itemTotal - deductionTotal);
                       },
                     ),
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    validator: (v) => v.length < 2 ? 'Must be at least 2 characters.' : null,
+                    validator: (v) =>
+                        v.length < 2 ? 'Must be at least 2 characters.' : null,
                   ),
-                  ShadInputFormField(controller: management, label: const Text('Management')),
-                  ShadInputFormField(controller: note, label: const Text('Note'), maxLines: 3),
+                  ShadInputFormField(
+                      controller: management, label: const Text('Management')),
+                  ShadInputFormField(
+                      controller: note, label: const Text('Note'), maxLines: 3),
                   const SizedBox(height: 16),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: ShadButton(
                       child: const Text('Save'),
                       onPressed: () async {
-                        if (!mounted) return;
                         if (salariesFormKey.currentState!.saveAndValidate()) {
                           final items = itemSalary.watch(context);
                           final deductions = itemDeductions.watch(context);
@@ -260,8 +275,10 @@ class _SalariesFormState extends State<SalariesForm> {
                           final salary = SalaryModel(
                             id: DateTime.now().microsecondsSinceEpoch,
                             userId: user!.id!,
-                            status: salariesFormKey.currentState!.value['status'],
-                            periode: salariesFormKey.currentState!.value['periode'],
+                            status:
+                                salariesFormKey.currentState!.value['status'],
+                            periode:
+                                salariesFormKey.currentState!.value['periode'],
                             items: items,
                             deductions: deductions,
                             note: note.text,
@@ -271,9 +288,10 @@ class _SalariesFormState extends State<SalariesForm> {
                           );
 
                           await Database().addSalary(salary);
-                          if (!mounted) return;
-                          salaryController.salaries.refresh();
-                          Navigator.of(context).pop(false);
+                          if (mounted) {
+                            salaryController.salaries.refresh();
+                            Navigator.of(context).pop(false);
+                          }
                         }
                       },
                     ),
@@ -297,7 +315,8 @@ class _SalariesFormState extends State<SalariesForm> {
             initialValue: item?.description,
             onChanged: (data) => storeValue(i: i + 1, description: data),
             placeholder: const Text('ex: Bonus'),
-            validator: (v) => v.length < 2 ? 'Must be at least 2 characters.' : null,
+            validator: (v) =>
+                v.length < 2 ? 'Must be at least 2 characters.' : null,
           ),
         ),
         Expanded(
@@ -306,19 +325,24 @@ class _SalariesFormState extends State<SalariesForm> {
             initialValue: item?.amount,
             placeholder: const Text('ex: Rp 10.000.000,-'),
             onChanged: (data) => storeValue(i: i + 1, amount: data),
-            validator: (v) => v.length < 2 ? 'Must be at least 2 characters.' : null,
+            validator: (v) =>
+                v.length < 2 ? 'Must be at least 2 characters.' : null,
           ),
         ),
         Container(
           margin: const EdgeInsets.only(top: 25.0),
           child: ShadButton.outline(
-            icon: const Icon(Icons.delete, size: 16),
+            child: const Icon(Icons.delete, size: 16),
             size: ShadButtonSize.regular,
             onPressed: () {
               setState(() {
                 itemsCount--;
-                if (i < itemSalary.value.length) itemSalary.value.removeAt(i);
-                if (i < formItems.length) formItems.removeAt(i);
+                if (i < itemSalary.value.length) {
+                  itemSalary.value.removeAt(i);
+                }
+                if (i < formItems.length) {
+                  formItems.removeAt(i);
+                }
               });
             },
           ),
@@ -336,7 +360,8 @@ class _SalariesFormState extends State<SalariesForm> {
             label: const Text('Description'),
             onChanged: (data) => storeDeducton(i: i + 1, description: data),
             placeholder: const Text('ex: Bonus'),
-            validator: (v) => v.length < 2 ? 'Must be at least 2 characters.' : null,
+            validator: (v) =>
+                v.length < 2 ? 'Must be at least 2 characters.' : null,
           ),
         ),
         Expanded(
@@ -344,19 +369,24 @@ class _SalariesFormState extends State<SalariesForm> {
             label: const Text('Amount'),
             placeholder: const Text('ex: Rp 10.000.000,-'),
             onChanged: (data) => storeDeducton(i: i + 1, amount: data),
-            validator: (v) => v.length < 2 ? 'Must be at least 2 characters.' : null,
+            validator: (v) =>
+                v.length < 2 ? 'Must be at least 2 characters.' : null,
           ),
         ),
         Container(
           margin: const EdgeInsets.only(top: 25.0),
           child: ShadButton.outline(
-            icon: const Icon(Icons.delete, size: 16),
+            child: const Icon(Icons.delete, size: 16),
             size: ShadButtonSize.regular,
             onPressed: () {
               setState(() {
                 deductionCount--;
-                if (i < itemDeductions.value.length) itemDeductions.value.removeAt(i);
-                if (i < formDeductions.length) formDeductions.removeAt(i);
+                if (i < itemDeductions.value.length) {
+                  itemDeductions.value.removeAt(i);
+                }
+                if (i < formDeductions.length) {
+                  formDeductions.removeAt(i);
+                }
               });
             },
           ),
@@ -368,7 +398,9 @@ class _SalariesFormState extends State<SalariesForm> {
   // --- STORE ITEM VALUE ---
   void storeValue({required int i, String? description, String? amount}) {
     final existingItem = itemSalary.value.lastWhereOrNull((e) => e.id == i);
-    if (existingItem != null) itemSalary.value.removeWhere((e) => e.id == i);
+    if (existingItem != null) {
+      itemSalary.value.removeWhere((e) => e.id == i);
+    }
 
     final newItem = ItemSalary(
       id: i,
@@ -382,7 +414,9 @@ class _SalariesFormState extends State<SalariesForm> {
   // --- STORE DEDUCTION VALUE ---
   void storeDeducton({required int i, String? description, String? amount}) {
     final existingItem = itemDeductions.value.lastWhereOrNull((e) => e.id == i);
-    if (existingItem != null) itemDeductions.value.removeWhere((e) => e.id == i);
+    if (existingItem != null) {
+      itemDeductions.value.removeWhere((e) => e.id == i);
+    }
 
     final newItem = ItemSalary(
       id: i,

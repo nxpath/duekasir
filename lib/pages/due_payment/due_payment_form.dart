@@ -101,7 +101,9 @@ class DuePaymentForm extends HookWidget {
                               200,
                               (val) =>
                                   ShadOption(value: val, child: Text('$val'))),
-                          onChanged: (val) => stock.value = val,
+                          onChanged: (val) {
+                            if (val != null) stock.value = val;
+                          },
                           selectedOptionBuilder: (context, value) {
                             stock.value = value;
                             return Text('$value');
@@ -139,7 +141,9 @@ class DuePaymentForm extends HookWidget {
                               ),
                             ),
                           ],
-                          onChanged: (String? value) => status.value = value!,
+                          onChanged: (value) {
+                            if (value != null) status.value = value;
+                          },
                           selectedOptionBuilder: (context, value) =>
                               Text(statusData[value]!),
                         ),

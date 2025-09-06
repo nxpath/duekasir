@@ -73,7 +73,8 @@ class UserSheet extends StatelessWidget {
                                       const Icon(
                                           Icons.keyboard_arrow_right_outlined),
                                       onTap: () {
-                                        userController.userSelected.value = user;
+                                        userController.userSelected.value =
+                                            user;
                                         context.push('/users/form');
                                       },
                                     ),

@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:signals/signals_flutter.dart';
 
 class InventoryList extends HookWidget {
@@ -101,26 +100,11 @@ class InventoryList extends HookWidget {
                         if (!fileCsv.existsSync()) {
                           fileCsv.create(recursive: true);
                         }
-                        if (Platform.isWindows) {
-                          FileSaver.instance
-                              .saveFile(
-                                  name:
-                                      'due-kasir-${DateTime.now().millisecondsSinceEpoch}.csv',
-                                  file: fileCsv)
-                              .then(
-                                (_) => const ShadToast(
-                                  title: Text('Export CSV Success!'),
-                                  description: Text(
-                                      'CSV File already on your download folder'),
-                                ),
-                              );
-                        } else {
-                          await FileSaver.instance.saveAs(
-                              name: 'due-kasir',
-                              file: fileCsv,
-                              ext: 'csv',
-                              mimeType: MimeType.csv);
-                        }
+                        await FileSaver.instance.saveAs(
+                            name: 'due-kasir',
+                            bytes: fileCsv.readAsBytesSync(),
+                            fileExtension: 'csv',
+                            mimeType: MimeType.csv);
                       }
                     }
                   },
@@ -165,7 +149,8 @@ class InventoryList extends HookWidget {
                     children: items
                         .map((item) => ListTile(
                               leading: Text(item.id.toString()),
-                              title: Text('${item.nama} (${item.jumlahBarang} Stock)'),
+                              title: Text(
+                                  '${item.nama} (${item.jumlahBarang} Stock)'),
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -227,7 +212,8 @@ class InventoryList extends HookWidget {
                   dataRowMaxHeight: 80.0,
                   rows: items
                       .map((item) => DataRow(cells: [
-                            DataCell(Text((items.indexOf(item) + 1).toString())),
+                            DataCell(
+                                Text((items.indexOf(item) + 1).toString())),
                             DataCell(Text(item.nama)),
                             DataCell(Text(item.code)),
                             DataCell(Text(item.jumlahBarang.toString())),

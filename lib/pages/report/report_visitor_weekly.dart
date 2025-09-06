@@ -14,71 +14,80 @@ class ReportVisitorWeekLy extends StatefulWidget {
 
 class _ReportVisitorWeekLyState extends State<ReportVisitorWeekLy> {
   bool loading = true;
-  List<MapEntry<DateTime, List<PenjualanModel>>> sun = [];
-  List<MapEntry<DateTime, List<PenjualanModel>>> mon = [];
-  List<MapEntry<DateTime, List<PenjualanModel>>> tue = [];
-  List<MapEntry<DateTime, List<PenjualanModel>>> wed = [];
-  List<MapEntry<DateTime, List<PenjualanModel>>> thu = [];
-  List<MapEntry<DateTime, List<PenjualanModel>>> fri = [];
-  List<MapEntry<DateTime, List<PenjualanModel>>> sat = [];
+  Map<int, double> weeklyData = {
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+    6: 0,
+    7: 0,
+  };
 
   @override
   void initState() {
-    final reportIncome = reportController.reportIncome.watch(context);
-    if (reportIncome.value != null) {
-      initiateData(reportIncome.value!);
-    } else {
-      loading = false;
-    }
     super.initState();
+    // Using an effect to process data when the signal changes
+    effect(() {
+      reportController.reportIncome.value.map(
+        data: (data) {
+          initiateData(data);
+        },
+        error: (e, s) {
+          if (mounted) {
+            setState(() {
+              loading = false;
+            });
+          }
+        },
+        loading: () {
+          if (mounted) {
+            setState(() {
+              loading = true;
+            });
+          }
+        },
+      );
+    });
   }
 
   Future<void> initiateData(Map<DateTime, List<PenjualanModel>> data) async {
-    await Future.forEach(data.entries, (i) {
-      if (i.key.weekday == 7) {
-        sun.add(i);
-      } else if (i.key.weekday == 1) {
-        mon.add(i);
-      } else if (i.key.weekday == 2) {
-        tue.add(i);
-      } else if (i.key.weekday == 3) {
-        wed.add(i);
-      } else if (i.key.weekday == 4) {
-        thu.add(i);
-      } else if (i.key.weekday == 5) {
-        fri.add(i);
-      } else if (i.key.weekday == 6) {
-        sat.add(i);
-      }
-    });
-    await Future.delayed(Durations.long1);
-    loading = false;
+    if (mounted) {
+      setState(() {
+        loading = true;
+        weeklyData = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0};
+      });
+    }
 
-    setState(() {});
+    for (var entry in data.entries) {
+      final weekday = entry.key.weekday;
+      weeklyData[weekday] = (weeklyData[weekday] ?? 0) + entry.value.length;
+    }
+
+    if (mounted) {
+      setState(() {
+        loading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final reportIncome = reportController.reportIncome.watch(context);
+    reportController.reportIncome.watch(context);
+
     return ShadCard(
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const Text('Visitor Weekly'),
           ShadButton.ghost(
-            onPressed: () async {
-              setState(() {
-                loading = true;
-              });
-              if (reportIncome.hasValue) {
-                initiateData(reportIncome.value!);
-              } else {
-                setState(() {
-                  loading = false;
-                });
-              }
+            onPressed: () {
+              reportController.reportIncome.value.map(
+                  data: (data) => initiateData(data),
+                  error: (e, s) {},
+                  loading: () {});
             },
-            icon: const Padding(
+            leading: const Padding(
               padding: EdgeInsets.only(right: 8),
               child: Icon(
                 Icons.refresh,
@@ -170,7 +179,6 @@ class _ReportVisitorWeekLyState extends State<ReportVisitorWeekLy> {
         break;
     }
     return SideTitleWidget(
-      axisSide: meta.axisSide,
       space: 4,
       child: Text(text, style: style),
     );
@@ -185,100 +193,35 @@ class _ReportVisitorWeekLyState extends State<ReportVisitorWeekLy> {
             getTitlesWidget: getTitles,
           ),
         ),
-        leftTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        topTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
+        leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
       );
 
-  FlBorderData get borderData => FlBorderData(
-        show: false,
-      );
+  FlBorderData get borderData => FlBorderData(show: false);
 
   LinearGradient get _barsGradient => const LinearGradient(
-        colors: [
-          Colors.blue,
-          Colors.cyan,
-        ],
+        colors: [Colors.blue, Colors.cyan],
         begin: Alignment.bottomCenter,
         end: Alignment.topCenter,
       );
 
-  List<BarChartGroupData> get barGroups => [
-        BarChartGroupData(
-          x: 0,
-          barRods: [
-            BarChartRodData(
-              toY: mon.fold(0, (p, c) => p + c.value.length),
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 1,
-          barRods: [
-            BarChartRodData(
-              toY: tue.fold(0, (p, c) => p + c.value.length),
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 2,
-          barRods: [
-            BarChartRodData(
-              toY: wed.fold(0, (p, c) => p + c.value.length),
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 3,
-          barRods: [
-            BarChartRodData(
-              toY: thu.fold(0, (p, c) => p + c.value.length),
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 4,
-          barRods: [
-            BarChartRodData(
-              toY: fri.fold(0, (p, c) => p + c.value.length),
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 5,
-          barRods: [
-            BarChartRodData(
-              toY: sat.fold(0, (p, c) => p + c.value.length),
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 6,
-          barRods: [
-            BarChartRodData(
-              toY: sun.fold(0, (p, c) => p + c.value.length),
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-      ];
+  List<BarChartGroupData> get barGroups {
+    final Map<int, int> weekdayToIndex = {1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 7: 6};
+    return weeklyData.entries.map((entry) {
+      final weekday = entry.key;
+      final value = entry.value;
+      return BarChartGroupData(
+        x: weekdayToIndex[weekday]!,
+        barRods: [
+          BarChartRodData(
+            toY: value,
+            gradient: _barsGradient,
+          )
+        ],
+        showingTooltipIndicators: [0],
+      );
+    }).toList()
+      ..sort((a, b) => a.x.compareTo(b.x));
+  }
 }

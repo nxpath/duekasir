@@ -62,7 +62,7 @@ class _ReportState extends State<Report> {
                     await Future.delayed(Durations.medium1);
                     isRefreshReport.value = false;
                   },
-            icon: const Padding(
+            leading: const Padding(
               padding: EdgeInsets.only(right: 8),
               child: Icon(
                 Icons.refresh,
@@ -414,7 +414,7 @@ class _ReportState extends State<Report> {
                                             ),
                                           );
                                         },
-                                        icon: const Padding(
+                                        leading: const Padding(
                                           padding: EdgeInsets.only(right: 8),
                                           child: Icon(
                                             Icons.sync,
@@ -431,7 +431,7 @@ class _ReportState extends State<Report> {
                                                   ReportDeleteDialog(
                                                       id: detail.id!));
                                         },
-                                        icon: const Padding(
+                                        leading: const Padding(
                                           padding: EdgeInsets.only(right: 8),
                                           child: Icon(
                                             Icons.delete,

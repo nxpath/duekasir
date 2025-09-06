@@ -26,14 +26,18 @@ class Presence extends StatelessWidget {
             onPressed: () {
               presenceController.presence.refresh();
             },
-            icon: const Padding(
-              padding: EdgeInsets.only(right: 8),
-              child: Icon(
-                Icons.refresh,
-                size: 16,
-              ),
+            child: const Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(right: 8),
+                  child: Icon(
+                    Icons.refresh,
+                    size: 16,
+                  ),
+                ),
+                Text('Refresh'),
+              ],
             ),
-            child: const Text('Refresh'),
           ),
           PopupMenuButton<String>(
             onSelected: (item) async {

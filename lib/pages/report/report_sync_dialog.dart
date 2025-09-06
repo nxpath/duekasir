@@ -69,23 +69,6 @@ class _ReportSyncDialogState extends State<ReportSyncDialog> {
               return null;
             },
             obscureText: obscure,
-            prefix: const Padding(
-              padding: EdgeInsets.all(4.0),
-              child: ShadImage.square(size: 16, LucideIcons.lock),
-            ),
-            suffix: ShadButton(
-              width: 24,
-              height: 24,
-              padding: EdgeInsets.zero,
-              decoration: ShadDecoration.none,
-              icon: ShadImage.square(
-                size: 16,
-                obscure ? LucideIcons.eyeOff : LucideIcons.eye,
-              ),
-              onPressed: () {
-                setState(() => obscure = !obscure);
-              },
-            ),
           ),
         ),
       ),

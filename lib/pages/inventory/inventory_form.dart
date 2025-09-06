@@ -116,18 +116,19 @@ class InventoryForm extends HookWidget {
                       child: const Padding(
                         padding: EdgeInsets.only(bottom: 5.0),
                         child: ShadButton.ghost(
-                          icon: Icon(Icons.barcode_reader),
+                          child: Icon(Icons.barcode_reader),
                         ),
                       ),
                     ),
                     ShadButton.ghost(
-                      icon: const Icon(Icons.camera_alt),
+                      child: const Icon(Icons.camera_alt),
                       onPressed: () async {
                         var res = await Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  const SimpleBarcodeScannerPage(),
+                              builder: (context) => SimpleBarcodeScanner(
+                                onBarcodeViewCreated: (_) {},
+                              ),
                             ));
                         editingCode.text = res;
                       },
@@ -155,7 +156,9 @@ class InventoryForm extends HookWidget {
                               200,
                               (val) =>
                                   ShadOption(value: val, child: Text('$val'))),
-                          onChanged: (val) => stock.value = val,
+                          onChanged: (val) {
+                            if (val != null) stock.value = val;
+                          },
                           selectedOptionBuilder: (context, value) {
                             stock.value = value;
                             return Text('$value');

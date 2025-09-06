@@ -27,14 +27,18 @@ class Expanses extends StatelessWidget {
             onPressed: () {
               expensesController.expenses.refresh();
             },
-            icon: const Padding(
-              padding: EdgeInsets.only(right: 8),
-              child: Icon(
-                Icons.refresh,
-                size: 16,
-              ),
+            child: const Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(right: 8),
+                  child: Icon(
+                    Icons.refresh,
+                    size: 16,
+                  ),
+                ),
+                Text('Refresh'),
+              ],
             ),
-            child: const Text('Refresh'),
           ),
           PopupMenuButton<String>(
             onSelected: (item) async {
@@ -141,14 +145,18 @@ class Expanses extends StatelessWidget {
                                       onPressed: () {
                                         expensesController.expenses.refresh();
                                       },
-                                      icon: const Padding(
-                                        padding: EdgeInsets.only(right: 8),
-                                        child: Icon(
-                                          Icons.delete,
-                                          size: 16,
-                                        ),
+                                      child: const Row(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(right: 8),
+                                            child: Icon(
+                                              Icons.delete,
+                                              size: 16,
+                                            ),
+                                          ),
+                                          Text('Delete'),
+                                        ],
                                       ),
-                                      child: const Text('Delete'),
                                     ),
                                   ),
                                 ]))

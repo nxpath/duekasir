@@ -58,14 +58,18 @@ class _CsvPreviewState extends State<CsvPreview> {
                     if (context.mounted) context.pop();
                   })
                 : null,
-            icon: const Padding(
-              padding: EdgeInsets.only(right: 8),
-              child: Icon(
-                Icons.import_export,
-                size: 16,
-              ),
+            child: const Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(right: 8),
+                  child: Icon(
+                    Icons.import_export,
+                    size: 16,
+                  ),
+                ),
+                Text('Export'),
+              ],
             ),
-            child: const Text('Export'),
           )
         ],
       ),

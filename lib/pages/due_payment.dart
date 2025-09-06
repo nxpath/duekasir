@@ -30,14 +30,18 @@ class _DuePaymentState extends State<DuePayment> with SignalsMixin {
             onPressed: () {
               duePaymentController.payments.refresh();
             },
-            icon: const Padding(
-              padding: EdgeInsets.only(right: 8),
-              child: Icon(
-                Icons.refresh,
-                size: 16,
-              ),
+            child: const Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(right: 8),
+                  child: Icon(
+                    Icons.refresh,
+                    size: 16,
+                  ),
+                ),
+                Text('Refresh'),
+              ],
             ),
-            child: const Text('Refresh'),
           ),
           PopupMenuButton<String>(
             onSelected: (item) async {

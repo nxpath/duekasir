@@ -22,12 +22,18 @@ class Home extends StatelessWidget {
         centerTitle: false,
         actions: [
           ShadButton.ghost(
-            icon: const Padding(
-                padding: EdgeInsets.only(right: 8), child: Icon(Icons.store)),
-            child: const Text('Store'),
             onPressed: () {
               context.push('/home/store');
             },
+            child: const Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(right: 8),
+                  child: Icon(Icons.store),
+                ),
+                Text('Store'),
+              ],
+            ),
           ),
         ],
       ),
