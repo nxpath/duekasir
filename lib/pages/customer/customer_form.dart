@@ -82,12 +82,10 @@ class CustomerForm extends HookWidget {
                                 //DateTime.now() - not to allow to choose before today.
                                 lastDate: DateTime(2100));
 
-                            if (pickedDate != null) {
-                              lahirTemp.text =
-                                  dateWithoutTime.format(lahir.value);
-                              lahir.value = pickedDate;
-                            }
-                          },
+                            lahirTemp.text =
+                                dateWithoutTime.format(lahir.value);
+                            lahir.value = pickedDate;
+                                                    },
                           child: ShadInputFormField(
                             controller: lahirTemp,
                             label: const Text('Date of Birth'),

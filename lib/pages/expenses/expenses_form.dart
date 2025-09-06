@@ -83,7 +83,7 @@ class ExpensesForm extends HookWidget {
                               firstDate: DateTime(
                                   2000), //DateTime.now() - not to allow to choose before today.
                               lastDate: DateTime(2101));
-                          date.value = pickedDate!;
+                          date.value = pickedDate;
                         },
                         icon: const Padding(
                           padding: EdgeInsets.only(right: 8),

@@ -67,12 +67,10 @@ class UserForm extends HookWidget {
                               firstDate: DateTime(1950),
                               lastDate: DateTime(2100));
 
-                          if (pickedDate != null) {
-                            lahirTemp.text =
-                                dateWithoutTime.format(lahir.value);
-                            lahir.value = pickedDate;
-                          }
-                        },
+                          lahirTemp.text =
+                              dateWithoutTime.format(lahir.value);
+                          lahir.value = pickedDate;
+                                                },
                         child: ShadInputFormField(
                           controller: lahirTemp,
                           label: const Text('Date of Birth'),

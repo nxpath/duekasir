@@ -56,8 +56,8 @@ class _SalariesFormState extends State<SalariesForm> {
   Future<void> initialItem() async {
     itemSalary.value = widget.salary?.items ?? [];
     if (widget.salary?.items != null) {
-      itemsCount = widget.salary!.items!.length;
-      await Future.forEach(widget.salary!.items!, (item) async {
+      itemsCount = widget.salary!.items.length;
+      await Future.forEach(widget.salary!.items, (item) async {
         formItems.add(buildItemField(item.id!, item: item));
       });
     }
